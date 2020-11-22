@@ -34,7 +34,8 @@ export default function ProductCard(props) {
                     >
                     Register
                 </Link> */}
-                <input type="button" className="btn primary-btn" value="View Product" onClick={() => window.open(`/products/${props.item.id}/details`)} />
+                {/* <input type="button" className="btn primary-btn" value="View Product" onClick={() => window.open(`/products/${props.item.id}/details`)} /> */}
+                <input type="button" className="btn primary-btn" value="View Product" onClick={() => window.open(`https://makeup-api.herokuapp.com/api/v1/products/${props.item.id}`)} />
             </div> 
             <div className="thumbnail">
                 <img src={api_featured_image} alt="logo.png"/>

@@ -9,10 +9,15 @@ export default class Products extends Component {
         this.state={
             brandsFilter: [],
             tagsFilter: [],
-            fetchedProducts: this.props.products
+            ratingsFilter: 0,
+            pricesFilter: 0,
+            fetchedProducts: this.props.products,
+            products: this.props.products
         };
         this.handleBrandChange = this.handleBrandChange.bind(this);
         this.handleTagChange = this.handleTagChange.bind(this);
+        this.handleRatingChange = this.handleRatingChange.bind(this);
+        this.handlePriceChange = this.handlePriceChange.bind(this);
         this.applyFilters = this.applyFilters.bind(this);
     }
 
@@ -42,26 +47,73 @@ export default class Products extends Component {
         });
     }
 
+    handleRatingChange(event){
+        const { ratingsFilter } = this.state;
+        if(Number(event.target.value) === 0)
+        this.setState({
+            ratingsFilter: 0
+        });
+        if(ratingsFilter != Number(event.target.value) && Number(event.target.value) != 0)
+            this.setState({
+                ratingsFilter: Number(event.target.value)
+            });
+    }
+
+    handlePriceChange(event){
+        const { pricesFilter } = this.state;
+        if(Number(event.target.value) === 0)
+        this.setState({
+            pricesFilter: 0
+        });
+        if(pricesFilter != Number(event.target.value) && Number(event.target.value) != 0)
+            this.setState({
+                pricesFilter: Number(event.target.value)
+            });
+    }
+
     applyFilters(){
-        const { fetchedProducts, brandsFilter, tagsFilter } = this.state;
-        let value = fetchedProducts.filter(item => 
-          (item.brand!=null ? brandsFilter.includes(item.brand) : false) ||
+        const { fetchedProducts, brandsFilter, tagsFilter, ratingsFilter, pricesFilter} = this.state;
+        let value = fetchedProducts;
+        
+        // if(brandsFilter.length === 0 && tagsFilter.length === 0) this.products;
+        if(brandsFilter.length != 0)
+        value = value.filter(item => 
+          (item.brand!=null ? brandsFilter.includes(item.brand) : false)
+        );
+        if(tagsFilter.length != 0)
+        value = value.filter(item => 
           (item.tag_list!=null ? tagsFilter.some(tag => item.tag_list.includes(tag)) : false) 
         );
-        this.setState({
-            fetchedProducts: value
-        });
+        if(ratingsFilter != 0)
+        value = value.filter(item => 
+            (item.rating!=null ? item.rating>=ratingsFilter : false)
+        );
+        if(pricesFilter === 1)
+            value = value.filter(item => 
+                (item.price!=null ? item.price<10 : false)
+            );
+        else if(pricesFilter === 2)
+            value = value.filter(item => 
+                (item.price!=null ? item.price>=10 && item.price<=15 : false)
+            );
+        else if(pricesFilter === 3)
+            value = value.filter(item => 
+                (item.price!=null ? item.price>15 : false)
+            );
+        
+
+        this.setState({ products: value });        
       }
 
     render(){
-        const { fetchedProducts } = this.state;
+        const { products } = this.state;
         let element;
 
-        if(fetchedProducts.length > 0){
+        if(products.length > 0){
 
             element =   <div className="productContainer">
                             <h1 className="medium text-primary alignLeft">Search Results for "{this.props.searchString}"</h1>
-                            {fetchedProducts.map(product => (
+                            {products.map(product => (
                                 <ProductCard key={product.id}
                                     item={product} />
                             ))}
@@ -92,7 +144,7 @@ export default class Products extends Component {
                                 </label>
                             )}
                         </div>
-                        <div className="brandFilters">
+                        <div className="tagFilters">
                             <h3 className="medium">Tags</h3>
                             {this.props.tags.map(tag => 
                                 <label key={tag}>
@@ -100,6 +152,43 @@ export default class Products extends Component {
                                     {tag}
                                 </label>
                             )}
+                        </div>
+                        <div className="ratingFilters">
+                            <h3 className="small">Ratings:&nbsp;</h3>
+                            <div class="ratingFilter">
+                                <label>
+                                    <input type="radio" name="rating" value="1" onChange={this.handleRatingChange} />&nbsp;1^&nbsp;&nbsp;
+                                </label>
+                                <label>
+                                    <input type="radio" name="rating" value="2" onChange={this.handleRatingChange} />&nbsp;2^&nbsp;&nbsp;
+                                </label>
+                                <label>
+                                    <input type="radio" name="rating" value="3" onChange={this.handleRatingChange} />&nbsp;3^&nbsp;&nbsp;
+                                </label>
+                                <label>
+                                    <input type="radio" name="rating" value="4" onChange={this.handleRatingChange} />&nbsp;4^&nbsp;&nbsp;
+                                </label>
+                                <label>
+                                    <input type="radio" name="rating" value="0" onChange={this.handleRatingChange} />&nbsp;All
+                                </label>
+                            </div>
+                        </div>
+                        <div className="priceFilters">
+                            <h3 className="small">Price Range</h3>
+                            <div class="priceFilter">
+                                <label>
+                                    <input type="radio" name="price" value="0" onChange={this.handlePriceChange} />&nbsp;Any
+                                </label><br />
+                                <label>
+                                    <input type="radio" name="price" value="1" onChange={this.handlePriceChange} />&nbsp;below $10
+                                </label><br />
+                                <label>
+                                    <input type="radio" name="price" value="2" onChange={this.handlePriceChange} />&nbsp;$10 - $15
+                                </label><br />
+                                <label>
+                                    <input type="radio" name="price" value="3" onChange={this.handlePriceChange} />&nbsp;Above $15
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>

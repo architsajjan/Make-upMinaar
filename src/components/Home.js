@@ -11,6 +11,7 @@ export default class Home extends React.Component {
         this.state = {
           error: null,
           isLoaded: false,
+          searchedItem: "",
           items: [],
           itemBrandList: [],
           itemNameList: [],
@@ -18,16 +19,17 @@ export default class Home extends React.Component {
           itemTagsList: [],
           browseHistory: []
         };
+        this.localDataLoaded = false;
         this.productSearched = false;
         this.fetchedResult = [];
-        this.searchedItem = "";
         this.searchItem = this.searchItem.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.research = this.research.bind(this);
         this.resetProductSearched = this.resetProductSearched.bind(this);
       }
     
       componentDidMount() {
-        if(this.state.items.length === 0)
+        if(this.localDataLoaded)
         fetch("http://makeup-api.herokuapp.com/api/v1/products.json")
           .then(res => res.json())
           .then(
@@ -60,15 +62,15 @@ export default class Home extends React.Component {
           this.setState({
               browseHistory: browseHistory
           });
-          this.fetchedResult = items.filter(item => 
+          if(searchedItem === "")this.fetchedResult = [...this.state.items];
+          else this.fetchedResult = items.filter(item => 
                 (item.brand!=null ? item.brand.includes(searchedItem) : false) || 
                 (item.name!=null ? item.name.includes(searchedItem) : false) || 
                 (item.category!=null ? item.category.includes(searchedItem) : false)
-            );
+          );
       }
 
       handleChange(event) {
-        event.preventDefault();
         this.setState({ searchedItem: event.target.value});
       }
 
@@ -88,6 +90,11 @@ export default class Home extends React.Component {
           itemTagsList: Array.from(new Set(tagList))
 
         });
+        this.localDataLoaded = true;
+      }
+      research(){
+        this.setState({searchedItem:""});
+        this.productSearched =false;
       }
 
     render(){
@@ -107,7 +114,8 @@ export default class Home extends React.Component {
         else if(this.productSearched){
             return(
               <div>
-                <SearchBar searchItem={this.searchItem} handleChange={this.handleChange}/>
+                {/* <SearchBar searchItem={this.searchItem} handleChange={this.handleChange}/> */}
+                <Navbar action={this.research}/>
                 <Products products={this.fetchedResult} searchString={searchedItem} brands={itemBrandList} tags={itemTagsList}/>
               </div>
             );
@@ -120,9 +128,8 @@ export default class Home extends React.Component {
                     <div>
                         <div className="home">
                         <h1 className="x-large">Welcome to The MakeUp Minar</h1>
-                        <SearchBar searchItem={this.searchItem} handleChange={this.handleChange}/>
+                            <SearchBar searchItem={this.searchItem} handleChange={this.handleChange}/>
                         </div>
-                        
                     </div>
                 </div>
               </div>
