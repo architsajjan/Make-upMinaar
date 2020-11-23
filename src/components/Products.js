@@ -105,7 +105,7 @@ export default class Products extends Component {
     }
 
     // APPLY FILTERS
-    applyFilters(){
+    async applyFilters(){
         const { fetchedProducts, brandsFilter, tagsFilter, ratingsFilter, pricesFilter, currentPage} = this.state;
         let value = fetchedProducts;    // if(brandsFilter.length === 0 && tagsFilter.length === 0) this.products;
 
@@ -134,7 +134,8 @@ export default class Products extends Component {
                 (item.price!==null ? item.price>15 : false)
             );
         
-        this.setState({ products: value });
+        await this.setState({ products: value });
+        
         this.implementPage(currentPage);   
       }
 
@@ -216,7 +217,7 @@ export default class Products extends Component {
                                 </label>
                             </div>
                         </div>
-                        
+
                         <div className="priceFilters">
                             <h3 className="small">Price Range</h3>
                             <div className="priceFilter">
