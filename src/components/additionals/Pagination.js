@@ -12,5 +12,5 @@ export default function Pagination(props) {
 
 Pagination.propTypes = {
     page : PropTypes.number.isRequired,
-    callback: PropTypes.func.isrequired
+    callback: PropTypes.func
 };

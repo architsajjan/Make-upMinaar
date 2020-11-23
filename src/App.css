@@ -82,6 +82,11 @@ img {
   background: black;
 }
 
+h1 p {
+  color: white;
+  font-size: x-small;
+}
+
 .productCard{
   display: flow-root;
     margin-bottom: 10px;
