@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function ProductCard(props) {
     
@@ -34,8 +34,8 @@ export default function ProductCard(props) {
                     >
                     Register
                 </Link> */}
-                {/* <input type="button" className="btn primary-btn" value="View Product" onClick={() => window.open(`/products/${props.item.id}/details`)} /> */}
-                <input type="button" className="btn primary-btn" value="View Product" onClick={() => window.open(`https://makeup-api.herokuapp.com/api/v1/products/${props.item.id}`)} />
+                {/* <input type="button" className="btn primary-btn" value="View Product" onClick={() => window.open(`/products/${id}/details`)} /> */}
+                <input type="button" className="btn primary-btn" value="View Product" onClick={() => window.open(`https://makeup-api.herokuapp.com/api/v1/products/${id}`)} />
             </div> 
             <div className="thumbnail">
                 <img src={api_featured_image} alt="logo.png"/>
@@ -43,3 +43,7 @@ export default function ProductCard(props) {
         </div>
     )
 }
+
+ProductCard.propTypes = {
+    item : PropTypes.object.isRequired
+};

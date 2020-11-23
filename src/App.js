@@ -6,10 +6,7 @@ import ProductDetails from './components/additionals/ProductDetails';
 
 import './App.css';
 
-class App extends React.Component {
-  
-  render() {
-    return(
+const App = () => 
       <Router>
         <Switch>
           <Route exact path="/" component={ Home }/>
@@ -17,8 +14,8 @@ class App extends React.Component {
           <Route path="/products/:productID/details" component={ ProductDetails }/>
         </Switch>
       </Router>
-    );
-  }
-}
+    
+  
+
 
 export default App;

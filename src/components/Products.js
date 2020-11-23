@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import Navbar from './Navbar';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import ProductCard from './additionals/ProductCard';
 
 export default class Products extends Component {
@@ -53,7 +52,7 @@ export default class Products extends Component {
         this.setState({
             ratingsFilter: 0
         });
-        if(ratingsFilter != Number(event.target.value) && Number(event.target.value) != 0)
+        if(ratingsFilter !== Number(event.target.value) && Number(event.target.value) !== 0)
             this.setState({
                 ratingsFilter: Number(event.target.value)
             });
@@ -65,7 +64,7 @@ export default class Products extends Component {
         this.setState({
             pricesFilter: 0
         });
-        if(pricesFilter != Number(event.target.value) && Number(event.target.value) != 0)
+        if(pricesFilter !== Number(event.target.value) && Number(event.target.value) !== 0)
             this.setState({
                 pricesFilter: Number(event.target.value)
             });
@@ -76,29 +75,29 @@ export default class Products extends Component {
         let value = fetchedProducts;
         
         // if(brandsFilter.length === 0 && tagsFilter.length === 0) this.products;
-        if(brandsFilter.length != 0)
+        if(brandsFilter.length !== 0)
         value = value.filter(item => 
-          (item.brand!=null ? brandsFilter.includes(item.brand) : false)
+          (item.brand!==null ? brandsFilter.includes(item.brand) : false)
         );
-        if(tagsFilter.length != 0)
+        if(tagsFilter.length !== 0)
         value = value.filter(item => 
-          (item.tag_list!=null ? tagsFilter.some(tag => item.tag_list.includes(tag)) : false) 
+          (item.tag_list!==null ? tagsFilter.some(tag => item.tag_list.includes(tag)) : false) 
         );
-        if(ratingsFilter != 0)
+        if(ratingsFilter !== 0)
         value = value.filter(item => 
-            (item.rating!=null ? item.rating>=ratingsFilter : false)
+            (item.rating!==null ? item.rating>=ratingsFilter : false)
         );
         if(pricesFilter === 1)
             value = value.filter(item => 
-                (item.price!=null ? item.price<10 : false)
+                (item.price!==null ? item.price<10 : false)
             );
         else if(pricesFilter === 2)
             value = value.filter(item => 
-                (item.price!=null ? item.price>=10 && item.price<=15 : false)
+                (item.price!==null ? item.price>=10 && item.price<=15 : false)
             );
         else if(pricesFilter === 3)
             value = value.filter(item => 
-                (item.price!=null ? item.price>15 : false)
+                (item.price!==null ? item.price>15 : false)
             );
         
 
@@ -112,7 +111,7 @@ export default class Products extends Component {
         if(products.length > 0){
 
             element =   <div className="productContainer">
-                            <h1 className="medium text-primary alignLeft">Search Results for "{this.props.searchString}"</h1>
+                            <h1 className="medium text-primary alignLeft">Search Results for &quot;{this.props.searchString}&quot;</h1>
                             {products.map(product => (
                                 <ProductCard key={product.id}
                                     item={product} />
@@ -155,7 +154,7 @@ export default class Products extends Component {
                         </div>
                         <div className="ratingFilters">
                             <h3 className="small">Ratings:&nbsp;</h3>
-                            <div class="ratingFilter">
+                            <div className="ratingFilter">
                                 <label>
                                     <input type="radio" name="rating" value="1" onChange={this.handleRatingChange} />&nbsp;1^&nbsp;&nbsp;
                                 </label>
@@ -175,7 +174,7 @@ export default class Products extends Component {
                         </div>
                         <div className="priceFilters">
                             <h3 className="small">Price Range</h3>
-                            <div class="priceFilter">
+                            <div className="priceFilter">
                                 <label>
                                     <input type="radio" name="price" value="0" onChange={this.handlePriceChange} />&nbsp;Any
                                 </label><br />
@@ -197,3 +196,11 @@ export default class Products extends Component {
         );
     }
 }
+
+Products.propTypes = {
+    products: PropTypes.object.isRequired,
+    searchString: PropTypes.string,
+    brands: PropTypes.object.isRequired,
+    tags: PropTypes.object.isRequired
+    
+};

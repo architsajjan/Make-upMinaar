@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function Loading(props) {
     return (
@@ -8,3 +9,7 @@ export default function Loading(props) {
         </div>
     )
 }
+
+Loading.propTypes = {
+    loadLocalData : PropTypes.func.isRequired
+};

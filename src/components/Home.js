@@ -23,6 +23,7 @@ export default class Home extends React.Component {
         this.productSearched = false;
         this.fetchedResult = [];
         this.searchItem = this.searchItem.bind(this);
+        this.loadLocalData = this.loadLocalData.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.research = this.research.bind(this);
         this.resetProductSearched = this.resetProductSearched.bind(this);
@@ -78,7 +79,7 @@ export default class Home extends React.Component {
           this.productSearched = false;
       }
 
-      loadLocalData = () =>{
+      loadLocalData(){
         let tagList = []; 
         data.map(item => item.tag_list.map(tag => tagList.push(tag)))
         this.setState({
