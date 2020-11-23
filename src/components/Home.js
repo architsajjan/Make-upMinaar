@@ -29,10 +29,12 @@ export default class Home extends React.Component {
         this.loadLocalData = this.loadLocalData.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.reSearch = this.reSearch.bind(this);
+        this.autocompleteCallback = this.autocompleteCallback.bind(this);
       }
     
       componentDidMount() {
-        // FETCH FOR DATA FROM API
+        // FETCH DATA FROM API
+        if(this.state.items.length === 0)
         fetch("http://makeup-api.herokuapp.com/api/v1/products.json")
           .then(res => res.json())
           .then(
@@ -68,9 +70,9 @@ export default class Home extends React.Component {
           });
           if(searchedItem === "")this.fetchedResult = [...this.state.items];
           else this.fetchedResult = items.filter(item => 
-                (item.brand!=null ? item.brand.includes(searchedItem) : false) || 
-                (item.name!=null ? item.name.includes(searchedItem) : false) || 
-                (item.category!=null ? item.category.includes(searchedItem) : false)
+                (item.brand!=null ? item.brand.toLowerCase().includes(searchedItem.toLowerCase()) : false) || 
+                (item.name!=null ? item.name.toLowerCase().includes(searchedItem.toLowerCase()) : false) || 
+                (item.category!=null ? item.category.toLowerCase().includes(searchedItem.toLowerCase()) : false)
           );
       }
 
@@ -89,6 +91,7 @@ export default class Home extends React.Component {
           itemBrandList: Array.from(new Set(data.map(item => item.brand))),
           itemNameList: Array.from(new Set(data.map(item => item.name))),
           itemCategoryList: Array.from(new Set(data.map(item => item.category))),
+          itemTypeList: Array.from(new Set(data.map(item => item.product_type))),
           itemTagsList: Array.from(new Set(tagList))
 
         });
@@ -100,6 +103,11 @@ export default class Home extends React.Component {
         this.setState({searchedItem:""});
         this.productSearched =false;
       }
+
+      autocompleteCallback(str){
+        this.setState({ searchedItem: str});
+        this.searchItem();
+    }
 
     render(){
         const { error, isLoaded, searchedItem, itemBrandList, itemTagsList} = this.state;
@@ -131,7 +139,16 @@ export default class Home extends React.Component {
                     <div>
                         <div className="home">
                         <h1 className="x-large">Welcome to The MakeUp Minar</h1>
-                            <SearchBar searchItem={this.searchItem} handleChange={this.handleChange}/>
+                            <SearchBar 
+                              searchItem={this.searchItem} 
+                              handleChange={this.handleChange}
+                              autocompleteCallback = {this.autocompleteCallback} 
+                              names={this.state.itemNameList}
+                              brands={this.state.itemBrandList}
+                              categories={this.state.itemCategoryList}
+                              types={this.state.itemTypeList}
+                              tags={this.state.itemTagsList}
+                            />
                         </div>
                     </div>
                 </div>
