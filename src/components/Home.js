@@ -1,4 +1,7 @@
+// IMPORTS
 import React from 'react';
+
+// LOCAL IMPORTS
 import data from '../Data.json';
 import Loading from './additionals/Loading';
 import Navbar from './Navbar';
@@ -25,12 +28,11 @@ export default class Home extends React.Component {
         this.searchItem = this.searchItem.bind(this);
         this.loadLocalData = this.loadLocalData.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.research = this.research.bind(this);
-        this.resetProductSearched = this.resetProductSearched.bind(this);
+        this.reSearch = this.reSearch.bind(this);
       }
     
       componentDidMount() {
-        if(this.localDataLoaded)
+        // FETCH FOR DATA FROM API
         fetch("http://makeup-api.herokuapp.com/api/v1/products.json")
           .then(res => res.json())
           .then(
@@ -56,6 +58,7 @@ export default class Home extends React.Component {
           )
       }
 
+      // INITIATE SEARCHING FOR THE SEARCHED STRING
       searchItem(){
           const {browseHistory, searchedItem, items} = this.state;
           browseHistory.push(searchedItem); 
@@ -71,14 +74,12 @@ export default class Home extends React.Component {
           );
       }
 
+      // HANDLE FORM CHANGES
       handleChange(event) {
         this.setState({ searchedItem: event.target.value});
       }
 
-      resetProductSearched(){
-          this.productSearched = false;
-      }
-
+      // LOAD LOCAL DATA INSTEAD WAITING FOR DATA FROM LIVE API.
       loadLocalData(){
         let tagList = []; 
         data.map(item => item.tag_list.map(tag => tagList.push(tag)))
@@ -93,14 +94,16 @@ export default class Home extends React.Component {
         });
         this.localDataLoaded = true;
       }
-      research(){
+
+      // GET READY FOR ANOTHER SEARCH.
+      reSearch(){
         this.setState({searchedItem:""});
         this.productSearched =false;
       }
 
     render(){
         const { error, isLoaded, searchedItem, itemBrandList, itemTagsList} = this.state;
-
+        
         if (error) {
            return <div>Error: {error.message}</div>;
         }
@@ -115,8 +118,7 @@ export default class Home extends React.Component {
         else if(this.productSearched){
             return(
               <div>
-                {/* <SearchBar searchItem={this.searchItem} handleChange={this.handleChange}/> */}
-                <Navbar action={this.research}/>
+                <Navbar action={this.reSearch}/>
                 <Products products={this.fetchedResult} searchString={searchedItem} brands={itemBrandList} tags={itemTagsList}/>
               </div>
             );

@@ -1,5 +1,8 @@
+// IMPORTS
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
+// LOCAL IMPORTS
 import ProductCard from './additionals/ProductCard';
 import Pagination from './additionals/Pagination';
 
@@ -30,6 +33,7 @@ export default class Products extends Component {
         this.implementPage();
     }
 
+    // IMPLEMENT CURRENT PAGE ACCORDING TO PAGINATION
     implementPage(pageNo = 1){
         const {productsPerPage, products} = this.state;
         let paginatedProducts = [];
@@ -46,6 +50,7 @@ export default class Products extends Component {
         this.setState({ currentPage:pageNo, paginatedProducts: paginatedProducts});
     }
 
+    // HANDLE BRANDS FILTER
     handleBrandChange(event){
         const { brandsFilter } = this.state;
         if(brandsFilter.includes(event.target.value)){
@@ -59,6 +64,7 @@ export default class Products extends Component {
         });
     }
     
+    // HANDLE TAGS FILTER
     handleTagChange(event){
         const { tagsFilter } = this.state;
         if(tagsFilter.includes(event.target.value)){
@@ -72,6 +78,7 @@ export default class Products extends Component {
         });
     }
 
+    // HANDLE RATINGS FILTER
     handleRatingChange(event){
         const { ratingsFilter } = this.state;
         if(Number(event.target.value) === 0)
@@ -84,6 +91,7 @@ export default class Products extends Component {
             });
     }
 
+    // HANDLE PRICES FILTER
     handlePriceChange(event){
         const { pricesFilter } = this.state;
         if(Number(event.target.value) === 0)
@@ -96,23 +104,23 @@ export default class Products extends Component {
             });
     }
 
+    // APPLY FILTERS
     applyFilters(){
         const { fetchedProducts, brandsFilter, tagsFilter, ratingsFilter, pricesFilter, currentPage} = this.state;
-        let value = fetchedProducts;
-        
-        // if(brandsFilter.length === 0 && tagsFilter.length === 0) this.products;
+        let value = fetchedProducts;    // if(brandsFilter.length === 0 && tagsFilter.length === 0) this.products;
+
         if(brandsFilter.length !== 0)
-        value = value.filter(item => 
-          (item.brand!==null ? brandsFilter.includes(item.brand) : false)
-        );
+            value = value.filter(item => 
+            (item.brand!==null ? brandsFilter.includes(item.brand) : false)
+            );
         if(tagsFilter.length !== 0)
-        value = value.filter(item => 
-          (item.tag_list!==null ? tagsFilter.some(tag => item.tag_list.includes(tag)) : false) 
-        );
+            value = value.filter(item => 
+            (item.tag_list!==null ? tagsFilter.some(tag => item.tag_list.includes(tag)) : false) 
+            );
         if(ratingsFilter !== 0)
-        value = value.filter(item => 
-            (item.rating!==null ? item.rating>=ratingsFilter : false)
-        );
+            value = value.filter(item => 
+                (item.rating!==null ? item.rating>=ratingsFilter : false)
+            );
         if(pricesFilter === 1)
             value = value.filter(item => 
                 (item.price!==null ? item.price<10 : false)
@@ -126,22 +134,18 @@ export default class Products extends Component {
                 (item.price!==null ? item.price>15 : false)
             );
         
-
-        this.setState({ products: value }); 
-        this.implementPage(currentPage);       
+        this.setState({ products: value });
+        this.implementPage(currentPage);   
       }
-
-    
 
     render(){
         const { paginatedProducts, pages } = this.state;
-        console.log(pages)
-        console.log(paginatedProducts)
         let element, pagesArr = [];
         for (let page = 1; page <= Number(pages); page++) {
             pagesArr.push(page);
         }
-        console.log(pagesArr)
+
+        // DETERMINES WHETHER ANY PRODUCTS FOUND
         if(paginatedProducts.length > 0){
             element =   <div className="productContainer">
                             <h1 className="medium text-primary alignLeft">Search Results for &quot;{this.props.searchString}&quot;</h1>
@@ -150,8 +154,6 @@ export default class Products extends Component {
                                     {pagesArr.map(page => 
                                         <Pagination key={page} page={page} callback={this.implementPage}/>
                                     )}
-
-                                {/* <Pagination pages={pages} callback={this.implementPage}/> */}
                             </div>
 
                             {paginatedProducts.map(product => (
@@ -169,10 +171,10 @@ export default class Products extends Component {
         return (
             <div>
                 <div className="landing">
-                    
                     <div className="landing-main">
                         {element}  
                     </div>
+
                     <div className="">
                         <div className="landing-filter">
                         <h1 className="medium">Filters<input type="button" value="Apply" onClick={this.applyFilters} /></h1>
@@ -214,6 +216,7 @@ export default class Products extends Component {
                                 </label>
                             </div>
                         </div>
+                        
                         <div className="priceFilters">
                             <h3 className="small">Price Range</h3>
                             <div className="priceFilter">
