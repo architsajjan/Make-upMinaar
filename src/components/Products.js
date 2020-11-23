@@ -149,7 +149,7 @@ export default class Products extends Component {
         // DETERMINES WHETHER ANY PRODUCTS FOUND
         if(paginatedProducts.length > 0){
             element =   <div className="productContainer">
-                            <h1 className="medium text-primary alignLeft">Search Results for &quot;{this.props.searchString}&quot;</h1>
+                            <h1 className="medium text-primary alignLeft">Search Results for &quot;{this.props.searchString}&quot;<p>({this.state.products.length} products found)</p></h1>
                             <div className="pagination">
                                 <p className="medium">PAGES:&nbsp;&nbsp;</p>
                                     {pagesArr.map(page => 
@@ -244,9 +244,9 @@ export default class Products extends Component {
 }
 
 Products.propTypes = {
-    products: PropTypes.object.isRequired,
+    products: PropTypes.array.isRequired,
     searchString: PropTypes.string,
-    brands: PropTypes.object.isRequired,
-    tags: PropTypes.object.isRequired
+    brands: PropTypes.array.isRequired,
+    tags: PropTypes.array.isRequired
     
 };
