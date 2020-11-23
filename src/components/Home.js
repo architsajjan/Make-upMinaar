@@ -73,7 +73,7 @@ export default class Home extends React.Component {
                 (item.brand!=null ? item.brand.toLowerCase().includes(searchedItem.toLowerCase()) : false) || 
                 (item.name!=null ? item.name.toLowerCase().includes(searchedItem.toLowerCase()) : false) || 
                 (item.category!=null ? item.category.toLowerCase().includes(searchedItem.toLowerCase()) : false)
-          );
+          );       
       }
 
       // HANDLE FORM CHANGES
@@ -104,6 +104,7 @@ export default class Home extends React.Component {
         this.productSearched =false;
       }
 
+      // AUTOCOMPLETE cALLBACK
       autocompleteCallback(str){
         this.setState({ searchedItem: str});
         this.searchItem();

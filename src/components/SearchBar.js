@@ -31,12 +31,12 @@ export default function SearchBar(props) {
 
     return (
         <div>
-            <form className="form searchForm form-bg">
+            <form className="form searchForm form-bg" onSubmit={props.searchItem}>
                 <div className="form-group">
                     <input type="text" className="SearchBox" spellCheck="false" autoComplete="off"  placeholder="Search for a product/ brand/ category" name="searchedText" onChange={onTextChanged}  required />
                 </div>
                 <div className="form-group">
-                    <input type="button" className="btn primay-btn SearchButton"  value="Search"  onClick={props.searchItem}/>
+                    <input type="submit" className="btn primay-btn SearchButton"  value="Search" />
                 </div>
             </form>
             {renderSuggestions()}
