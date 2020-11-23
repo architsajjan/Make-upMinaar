@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ProductCard from './additionals/ProductCard';
+import Pagination from './additionals/Pagination';
 
 export default class Products extends Component {
     constructor(props){
@@ -11,13 +12,38 @@ export default class Products extends Component {
             ratingsFilter: 0,
             pricesFilter: 0,
             fetchedProducts: this.props.products,
-            products: this.props.products
+            products: this.props.products,
+            productsPerPage : 10,
+            pages: 1,
+            currentPage: 1,
+            paginatedProducts : this.props.products
         };
         this.handleBrandChange = this.handleBrandChange.bind(this);
         this.handleTagChange = this.handleTagChange.bind(this);
         this.handleRatingChange = this.handleRatingChange.bind(this);
         this.handlePriceChange = this.handlePriceChange.bind(this);
         this.applyFilters = this.applyFilters.bind(this);
+        this.implementPage = this.implementPage.bind(this);
+    }
+
+    componentDidMount(){        
+        this.implementPage();
+    }
+
+    implementPage(pageNo = 1){
+        const {productsPerPage, products} = this.state;
+        let paginatedProducts = [];
+        this.setState({
+            pages: Math.ceil(Number((products.length)/productsPerPage))
+        });
+        const base = (Number(pageNo)-1)* Number(productsPerPage);
+        let rounds = ((products.length - base)>=10)? productsPerPage:(products.length - base);
+
+
+        for(let i = 0; i<rounds ; ++i){
+            paginatedProducts.push(products[base+i])
+        }
+        this.setState({ currentPage:pageNo, paginatedProducts: paginatedProducts});
     }
 
     handleBrandChange(event){
@@ -71,7 +97,7 @@ export default class Products extends Component {
     }
 
     applyFilters(){
-        const { fetchedProducts, brandsFilter, tagsFilter, ratingsFilter, pricesFilter} = this.state;
+        const { fetchedProducts, brandsFilter, tagsFilter, ratingsFilter, pricesFilter, currentPage} = this.state;
         let value = fetchedProducts;
         
         // if(brandsFilter.length === 0 && tagsFilter.length === 0) this.products;
@@ -101,29 +127,45 @@ export default class Products extends Component {
             );
         
 
-        this.setState({ products: value });        
+        this.setState({ products: value }); 
+        this.implementPage(currentPage);       
       }
 
+    
+
     render(){
-        const { products } = this.state;
-        let element;
-
-        if(products.length > 0){
-
+        const { paginatedProducts, pages } = this.state;
+        console.log(pages)
+        console.log(paginatedProducts)
+        let element, pagesArr = [];
+        for (let page = 1; page <= Number(pages); page++) {
+            pagesArr.push(page);
+        }
+        console.log(pagesArr)
+        if(paginatedProducts.length > 0){
             element =   <div className="productContainer">
                             <h1 className="medium text-primary alignLeft">Search Results for &quot;{this.props.searchString}&quot;</h1>
-                            {products.map(product => (
+                            <div className="pagination">
+                                <p className="medium">PAGES:&nbsp;&nbsp;</p>
+                                    {pagesArr.map(page => 
+                                        <Pagination key={page} page={page} callback={this.implementPage}/>
+                                    )}
+
+                                {/* <Pagination pages={pages} callback={this.implementPage}/> */}
+                            </div>
+
+                            {paginatedProducts.map(product => (
                                 <ProductCard key={product.id}
                                     item={product} />
                             ))}
                         </div>  ;
         }
         else{
-
             element =   <div className="container">
                             <h1 className="medium text-primary">No products found for your searched Item.</h1>
                         </div>  ;
         }
+
         return (
             <div>
                 <div className="landing">

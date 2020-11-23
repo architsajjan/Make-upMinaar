@@ -67,6 +67,20 @@ img {
 .questionPanel {
   display: flex;
 }
+.pagination{
+  display: flex;
+  overflow-x: auto;
+}
+
+.page {
+  width: fit-content;
+  height: fit-content;
+  padding: 0 5px;
+  border: white 1px solid;
+  margin-left: 2px;
+  margin-bottom: 2px;
+  background: black;
+}
 
 .productCard{
   display: flow-root;
