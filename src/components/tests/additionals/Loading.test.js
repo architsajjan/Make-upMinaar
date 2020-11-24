@@ -1,10 +1,10 @@
 import React from "react";
 import { render, unmountComponentAtNode } from "react-dom";
 
-import App from './App';
+import Loading from '../../additionals/Loading';
 
 it("runs without crash", () => {
   const div = document.createElement("div");
-  render(<App />, div);
+  render(<Loading loadLocalData={()=>{}} />, div);
   unmountComponentAtNode(div);
 });

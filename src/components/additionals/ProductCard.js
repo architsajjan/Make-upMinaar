@@ -43,5 +43,5 @@ export default function ProductCard(props) {
 }
 
 ProductCard.propTypes = {
-    item : PropTypes.object.isRequired
+    item : PropTypes.array.isRequired
 };

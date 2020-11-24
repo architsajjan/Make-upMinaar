@@ -1,10 +1,11 @@
 import React from "react";
 import { render, unmountComponentAtNode } from "react-dom";
+import { BrowserRouter } from "react-router-dom";
 
-import App from './App';
+import Home from '../Home';
 
 it("runs without crash", () => {
   const div = document.createElement("div");
-  render(<App />, div);
+  render(<BrowserRouter><Home /></BrowserRouter>, div);
   unmountComponentAtNode(div);
 });
