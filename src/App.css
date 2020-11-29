@@ -87,6 +87,12 @@ h1 p {
   font-size: x-small;
 }
 
+.recentlySearched{
+  font-size: x-small;
+  font-weight: 800;
+  color: black;
+}
+
 .productCard{
   display: flow-root;
     margin-bottom: 10px;

@@ -11,6 +11,12 @@ import ProductDetails from './components/additionals/ProductDetails';
 import './App.css';
 
 const App = () => 
+/**
+ *  
+ * MakeUp Minnar is a beginner React based Application 
+ * that depicts use of beginner react concepts.
+ * 
+ */
       <Router>
         <Switch>
           <Route exact path="/" component={ Home }/>

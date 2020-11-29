@@ -6,7 +6,23 @@ import PropTypes from 'prop-types';
 import ProductCard from './additionals/ProductCard';
 import Pagination from './additionals/Pagination';
 
-export default class Products extends Component {
+/**
+ * @class
+ * Products component shows the list of fetched products on the basis of search
+ */
+class Products extends Component {
+    /**
+     * @constructor 
+     * @param {Array} brandsFilter  an array to store list of brands filters applied
+     * @param {Array} tagsfilter  an array to store list of tags filters applied
+     * @param {Array} ratingsFilter  an array to store list of ratings filters applied
+     * @param {Array} pricesFilter  an array to store list of prices filters applied
+     * @param {Array} fetchedProducts  an array to store list fetched products as per user search 
+     * @param {Number} ProductsPerPage  count of products allowed per page
+     * @param {Number} pages  number of pages
+     * @param {Number} currentPage  current page number
+     * @param {Array} paginatedProducts  an array to products to display on the current page
+     */
     constructor(props){
         super(props);
         this.state={
@@ -250,3 +266,5 @@ Products.propTypes = {
     tags: PropTypes.array.isRequired
     
 };
+
+export default Products;

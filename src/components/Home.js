@@ -8,7 +8,22 @@ import Navbar from './Navbar';
 import Products from './Products';
 import SearchBar from './SearchBar';
 
-export default class Home extends React.Component {
+/**
+ * @class
+ * Home Component control the main state of the application 
+ */
+class Home extends React.Component {
+    /**
+     * @constructor
+     * @param {Object} state.error  checks if any error or exception is returned while fetching the API
+     * @param {Boolean} state.isLoaded  flag to update once the data is loaded from the API or local storage 
+     * @param {Array} state.items  an array to store the loaded data 
+     * @param {Array} state.itemsBrandList  an array to store list of Brands available
+     * @param {Array} state.itemsNameList  an array to store list of Products Names available
+     * @param {Array} state.itemsCategoryList  an array to store list of Products Categories available
+     * @param {Array} state.itemsTagsList  an array to store list of Products Tags available
+     * @param {Array} state.browseHistory  an array to store search history
+     */
     constructor(props) {
         super(props);
         this.state = {
@@ -25,9 +40,7 @@ export default class Home extends React.Component {
         this.localDataLoaded = false;
         this.productSearched = false;
         this.fetchedResult = [];
-        this.searchItem = this.searchItem.bind(this);
         this.loadLocalData = this.loadLocalData.bind(this);
-        this.handleChange = this.handleChange.bind(this);
         this.reSearch = this.reSearch.bind(this);
         this.autocompleteCallback = this.autocompleteCallback.bind(this);
       }
@@ -61,24 +74,23 @@ export default class Home extends React.Component {
       }
 
       // INITIATE SEARCHING FOR THE SEARCHED STRING
-      searchItem(){
-          const {browseHistory, searchedItem, items} = this.state;
-          browseHistory.push(searchedItem); 
+      searchItem=(str)=>{
+          const {browseHistory, items} = this.state;
+          if(browseHistory.indexOf(str) != -1){
+            browseHistory.splice(browseHistory.indexOf(str), 1);
+          }
+          browseHistory.push(str); 
           this.productSearched = true;
           this.setState({
-              browseHistory: browseHistory
+              browseHistory: browseHistory,
+              searchedItem: str
           });
-          if(searchedItem === "")this.fetchedResult = [...this.state.items];
+          if(str === "")this.fetchedResult = [...this.state.items];
           else this.fetchedResult = items.filter(item => 
-                (item.brand!=null ? item.brand.toLowerCase().includes(searchedItem.toLowerCase()) : false) || 
-                (item.name!=null ? item.name.toLowerCase().includes(searchedItem.toLowerCase()) : false) || 
-                (item.category!=null ? item.category.toLowerCase().includes(searchedItem.toLowerCase()) : false)
+                (item.brand!=null ? item.brand.toLowerCase().includes(str.toLowerCase()) : false) || 
+                (item.name!=null ? item.name.toLowerCase().includes(str.toLowerCase()) : false) || 
+                (item.category!=null ? item.category.toLowerCase().includes(str.toLowerCase()) : false)
           );       
-      }
-
-      // HANDLE FORM CHANGES
-      handleChange(event) {
-        this.setState({ searchedItem: event.target.value});
       }
 
       // LOAD LOCAL DATA INSTEAD WAITING FOR DATA FROM LIVE API.
@@ -106,12 +118,12 @@ export default class Home extends React.Component {
 
       // AUTOCOMPLETE cALLBACK
       autocompleteCallback(str){
-        this.setState({ searchedItem: str});
-        this.searchItem();
+        //this.setState({ searchedItem: str});
+        this.searchItem(str);
     }
 
     render(){
-        const { error, isLoaded, searchedItem, itemBrandList, itemTagsList} = this.state;
+        const { error, isLoaded, searchedItem, itemBrandList, itemTagsList, browseHistory} = this.state;
         
         if (error) {
            return <div>Error: {error.message}</div>;
@@ -149,6 +161,7 @@ export default class Home extends React.Component {
                               categories={this.state.itemCategoryList}
                               types={this.state.itemTypeList}
                               tags={this.state.itemTagsList}
+                              browseHistory={(browseHistory.length > 5) ? browseHistory.slice(browseHistory.length-5, browseHistory.length).reverse() : browseHistory.slice(0, browseHistory.length).reverse()}
                             />
                         </div>
                     </div>
@@ -157,3 +170,5 @@ export default class Home extends React.Component {
             );
     }
 }
+
+export default Home;
