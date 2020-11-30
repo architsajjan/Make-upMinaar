@@ -7,12 +7,14 @@ import PropTypes from 'prop-types';
  * SearchBar : 
  * This component Manages user interaction to enable user to search a product
  * 
+ * @param {Array} items  an array of fetched results
  * @param {Array} names  an array to store list of Products Names available
  * @param {Array} types  an array to store list of Product types available
  * @param {Array} categories  an array to store list of Products Categories available
  * @param {Array} tags  an array to store list of Products Tags available
  * @param {Array} brands  an array to store list of Brands available
  * @param {Array} browseHistory  an array to display search history
+ * @return {JSX}
  */
 function SearchBar(props) {
     const { names, types, categories, tags, brands, browseHistory } = props;
@@ -24,11 +26,21 @@ function SearchBar(props) {
     if(tags)items =[...items, ...props.tags]; 
     if(brands)items =[...items, ...props.brands]; 
 
-    //let suggestions = [];
+    /**
+     * State of the SEARCHBAR component using useState Hook
+     * @param {Array} suggestions holds list of suggestions for autocomplete
+     * @param {Boolean} disableSearchAll a flag to toggle between search all products and search searched product
+     * @param {String} str holds the value of searched string
+     */
     const [suggestions, setSuggestions] = useState([]);
     const [disableSearchAll, setDisableSearchAll] = useState(false);
     const [str, setStr] = useState("");
 
+    /**
+     * @function onTextChanged()
+     * this function handles input form changes in searchBar
+     * @param {Event} event holds the event that triggeres this method
+     */
     function onTextChanged(event){
         const value = event.target.value;
         if (value === "") setDisableSearchAll(false);
@@ -42,9 +54,14 @@ function SearchBar(props) {
         setSuggestions(localSuggestions);
 
         setStr(value);
-        //props.handleChange(event);
     } 
 
+    /**
+     * @function renderSuggestions()
+     * this function renders suggestions as per searched string
+     * @param {Array} suggestions holds the list of suggestions
+     * @return {JSX}
+     */
     function renderSuggestions(){
         if(suggestions.length === 0){return null;}
         return (
@@ -53,7 +70,14 @@ function SearchBar(props) {
                 {suggestions.slice(0,5).map((item) => <li onClick={()=>props.autocompleteCallback(item)} key={item}>{item}</li>)}
             </ul>
         );
-    }                    
+    }      
+    
+    /**
+     * @function renderRecents()
+     * this function renders 5 recently searched strings
+     * @param {Array} browseHistory holds the list of 5 recent searches
+     * @return {JSX}
+     */
     function renderRecents(){
         if(!browseHistory || browseHistory.length === 0){return null;}
         return (

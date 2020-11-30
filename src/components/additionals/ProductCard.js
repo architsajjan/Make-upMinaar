@@ -5,7 +5,16 @@ import PropTypes from 'prop-types';
 /**
  * @class
  * ProductCard is an example of a Pure component and doesnt Rerenders
- * 
+ * @param {String} id Id of the product
+ * @param {String} api_featured_image Image of the product
+ * @param {String} name Name of the product
+ * @param {String} brand Brand of the product
+ * @param {String} category Category of the product
+ * @param {String} product_type Type of the product
+ * @param {String} rating Rating of the product
+ * @param {String} currency Currency of the product
+ * @param {String} price_sign Price Sign of the product
+ * @param {String} price Price of the product
  */
 class ProductCard extends PureComponent {
     constructor(props){

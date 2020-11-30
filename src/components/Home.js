@@ -46,7 +46,7 @@ class Home extends React.Component {
       }
     
       componentDidMount() {
-        // FETCH DATA FROM API
+        // FETCH DATA FROM API (if) items array is empty or local data isnt loaded. 
         if(this.state.items.length === 0)
         fetch("http://makeup-api.herokuapp.com/api/v1/products.json")
           .then(res => res.json())
@@ -73,7 +73,11 @@ class Home extends React.Component {
           )
       }
 
-      // INITIATE SEARCHING FOR THE SEARCHED STRING
+      /**
+       * @function searchItem() :
+       * INITIATE SEARCHING FOR THE SEARCHED STRING.
+       * @param {String} str contains the value of the searched string. 
+       */
       searchItem=(str)=>{
           const {browseHistory, items} = this.state;
           if(browseHistory.indexOf(str) != -1){
@@ -93,7 +97,11 @@ class Home extends React.Component {
           );       
       }
 
-      // LOAD LOCAL DATA INSTEAD WAITING FOR DATA FROM LIVE API.
+      /**
+       * @function loadLocalData() :
+       * LOAD LOCAL DATA INSTEAD WAITING FOR DATA FROM LIVE API.
+       * @param {Array} data contains local data 
+       */
       loadLocalData(){
         let tagList = []; 
         data.map(item => item.tag_list.map(tag => tagList.push(tag)))
@@ -110,15 +118,21 @@ class Home extends React.Component {
         this.localDataLoaded = true;
       }
 
-      // GET READY FOR ANOTHER SEARCH.
+      /**
+       * @function reSearch() :
+       * GET READY FOR ANOTHER SEARCH..
+       * @param {Boolean} productSearched used to toggle between two product searches  
+       */
       reSearch(){
         this.setState({searchedItem:""});
         this.productSearched =false;
       }
 
-      // AUTOCOMPLETE cALLBACK
+      /**
+       * @function autocompleteCallback() :
+       * Autocomplete callback method to initiate search.
+       */
       autocompleteCallback(str){
-        //this.setState({ searchedItem: str});
         this.searchItem(str);
     }
 

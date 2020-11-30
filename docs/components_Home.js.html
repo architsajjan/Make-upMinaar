@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Home.js</title>
+    <title>JSDoc: Source: components/Home.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: Home.js</h1>
+    <h1 class="page-title">Source: components/Home.js</h1>
 
     
 
@@ -74,7 +74,7 @@ class Home extends React.Component {
       }
     
       componentDidMount() {
-        // FETCH DATA FROM API
+        // FETCH DATA FROM API (if) items array is empty or local data isnt loaded. 
         if(this.state.items.length === 0)
         fetch("http://makeup-api.herokuapp.com/api/v1/products.json")
           .then(res => res.json())
@@ -101,7 +101,11 @@ class Home extends React.Component {
           )
       }
 
-      // INITIATE SEARCHING FOR THE SEARCHED STRING
+      /**
+       * @function searchItem() :
+       * INITIATE SEARCHING FOR THE SEARCHED STRING.
+       * @param {String} str contains the value of the searched string. 
+       */
       searchItem=(str)=>{
           const {browseHistory, items} = this.state;
           if(browseHistory.indexOf(str) != -1){
@@ -122,7 +126,7 @@ class Home extends React.Component {
       }
 
       /**
-       * @function
+       * @function loadLocalData() :
        * LOAD LOCAL DATA INSTEAD WAITING FOR DATA FROM LIVE API.
        * @param {Array} data contains local data 
        */
@@ -142,15 +146,21 @@ class Home extends React.Component {
         this.localDataLoaded = true;
       }
 
-      // GET READY FOR ANOTHER SEARCH.
+      /**
+       * @function reSearch() :
+       * GET READY FOR ANOTHER SEARCH..
+       * @param {Boolean} productSearched used to toggle between two product searches  
+       */
       reSearch(){
         this.setState({searchedItem:""});
         this.productSearched =false;
       }
 
-      // AUTOCOMPLETE cALLBACK
+      /**
+       * @function autocompleteCallback() :
+       * Autocomplete callback method to initiate search.
+       */
       autocompleteCallback(str){
-        //this.setState({ searchedItem: str});
         this.searchItem(str);
     }
 
@@ -213,13 +223,13 @@ export default Home;</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Home.html">Home</a></li><li><a href="ProductCard.html">ProductCard</a></li><li><a href="Products.html">Products</a></li></ul><h3>Global</h3><ul><li><a href="global.html#LOADLOCALDATAINSTEADWAITINGFORDATAFROMLIVEAPI.">LOAD LOCAL DATA INSTEAD WAITING FOR DATA FROM LIVE API.</a></li><li><a href="global.html#Loading:ThiscomponentisdisplayedwhenAPIfetchesdatafromOnlineResource">Loading :This component is displayed when API fetches data from Online Resource</a></li><li><a href="global.html#Pagination:ThiscomponentdisplaysPaginationontheproductspage">Pagination :This component displays Pagination on the products page</a></li><li><a href="global.html#SearchBar:ThiscomponentManagesuserinteractiontoenableusertosearchaproduct">SearchBar : This component Manages user interaction to enable user to search a product</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Home.html">Home</a></li><li><a href="ProductCard.html">ProductCard</a></li><li><a href="Products.html">Products</a></li></ul><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#applyFilters():APPLYFILTERS.">applyFilters() :APPLY FILTERS.</a></li><li><a href="global.html#autocompleteCallback():Autocompletecallbackmethodtoinitiatesearch.">autocompleteCallback() :Autocomplete callback method to initiate search.</a></li><li><a href="global.html#handleBrandChange():HANDLEBRANDSFILTER.">handleBrandChange() :HANDLE BRANDS FILTER.</a></li><li><a href="global.html#handlePriceChange():HANDLEPRICESFILTER.">handlePriceChange() :HANDLE PRICES FILTER.</a></li><li><a href="global.html#handleRatingChange():HANDLERATINGSFILTER.">handleRatingChange() :HANDLE RATINGS FILTER.</a></li><li><a href="global.html#handleTagChange():HANDLETAGSFILTER.">handleTagChange() :HANDLE TAGS FILTER.</a></li><li><a href="global.html#implementPage():IMPLEMENTCURRENTPAGEACCORDINGTOPAGINATION.">implementPage() :IMPLEMENT CURRENT PAGE ACCORDING TO PAGINATION.</a></li><li><a href="global.html#Loading:ThiscomponentisdisplayedwhenAPIfetchesdatafromOnlineResource">Loading :This component is displayed when API fetches data from Online Resource</a></li><li><a href="global.html#loadLocalData():LOADLOCALDATAINSTEADWAITINGFORDATAFROMLIVEAPI.">loadLocalData() :LOAD LOCAL DATA INSTEAD WAITING FOR DATA FROM LIVE API.</a></li><li><a href="global.html#Navbar:Thiscomponentisadynamicnavbar">Navbar :This component is a dynamic navbar</a></li><li><a href="global.html#onTextChanged()thisfunctionhandlesinputformchangesinsearchBar">onTextChanged()this function handles input form changes in searchBar</a></li><li><a href="global.html#Pagination:ThiscomponentdisplaysPaginationontheproductspage">Pagination :This component displays Pagination on the products page</a></li><li><a href="global.html#renderRecents()thisfunctionrenders5recentlysearchedstrings">renderRecents()this function renders 5 recently searched strings</a></li><li><a href="global.html#renderSuggestions()thisfunctionrenderssuggestionsaspersearchedstring">renderSuggestions()this function renders suggestions as per searched string</a></li><li><a href="global.html#reSearch():GETREADYFORANOTHERSEARCH..">reSearch() :GET READY FOR ANOTHER SEARCH..</a></li><li><a href="global.html#SearchBar:ThiscomponentManagesuserinteractiontoenableusertosearchaproduct">SearchBar : This component Manages user interaction to enable user to search a product</a></li><li><a href="global.html#searchItem():INITIATESEARCHINGFORTHESEARCHEDSTRING.">searchItem() :INITIATE SEARCHING FOR THE SEARCHED STRING.</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Mon Nov 30 2020 12:02:34 GMT+0530 (India Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Mon Nov 30 2020 13:07:15 GMT+0530 (India Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

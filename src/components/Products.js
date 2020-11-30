@@ -49,7 +49,11 @@ class Products extends Component {
         this.implementPage();
     }
 
-    // IMPLEMENT CURRENT PAGE ACCORDING TO PAGINATION
+    /**
+       * @function implementPage() :
+       * IMPLEMENT CURRENT PAGE ACCORDING TO PAGINATION.
+       * @param {String} pageNo indicates pageNo of current paginated products. 
+       */
     implementPage(pageNo = 1){
         const {productsPerPage, products} = this.state;
         let paginatedProducts = [];
@@ -66,7 +70,11 @@ class Products extends Component {
         this.setState({ currentPage:pageNo, paginatedProducts: paginatedProducts});
     }
 
-    // HANDLE BRANDS FILTER
+    /**
+      * @function handleBrandChange() :
+      * HANDLE BRANDS FILTER.
+      * @param {Array} brandsFilter contains list of brands to be filtered. 
+      */
     handleBrandChange(event){
         const { brandsFilter } = this.state;
         if(brandsFilter.includes(event.target.value)){
@@ -80,7 +88,11 @@ class Products extends Component {
         });
     }
     
-    // HANDLE TAGS FILTER
+    /**
+      * @function handleTagChange() :
+      * HANDLE TAGS FILTER.
+      * @param {Array} tagsFilter contains list of tags to be filtered. 
+      */
     handleTagChange(event){
         const { tagsFilter } = this.state;
         if(tagsFilter.includes(event.target.value)){
@@ -94,7 +106,11 @@ class Products extends Component {
         });
     }
 
-    // HANDLE RATINGS FILTER
+    /**
+      * @function handleRatingChange() :
+      * HANDLE RATINGS FILTER.
+      * @param {Array} ratingsFilter contains list of ratings to be filtered. 
+      */
     handleRatingChange(event){
         const { ratingsFilter } = this.state;
         if(Number(event.target.value) === 0)
@@ -107,7 +123,11 @@ class Products extends Component {
             });
     }
 
-    // HANDLE PRICES FILTER
+    /**
+      * @function handlePriceChange() :
+      * HANDLE PRICES FILTER.
+      * @param {Array} pricesFilter contains list of prices to be filtered. 
+      */
     handlePriceChange(event){
         const { pricesFilter } = this.state;
         if(Number(event.target.value) === 0)
@@ -120,7 +140,16 @@ class Products extends Component {
             });
     }
 
-    // APPLY FILTERS
+    /**
+     * @async
+     * @function applyFilters() :
+     * APPLY FILTERS.
+     * @param {Array} brandsFilter contains list of brands to be filtered. 
+     * @param {Array} tagsFilter contains list of tags to be filtered. 
+     * @param {Array} ratingsFilter contains list of ratings to be filtered. 
+     * @param {Array} categoriesFilter contains list of categories to be filtered. 
+     * @param {Array} pricesFilter contains list of prices to be filtered. 
+     */
     async applyFilters(){
         const { fetchedProducts, brandsFilter, tagsFilter, ratingsFilter, pricesFilter, currentPage} = this.state;
         let value = fetchedProducts;    // if(brandsFilter.length === 0 && tagsFilter.length === 0) this.products;

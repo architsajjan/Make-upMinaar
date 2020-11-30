@@ -3,7 +3,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-export default function Navbar(props) {
+/**
+ * @function Navbar :
+ * This component is a dynamic navbar
+ * 
+ * @param {Function} action  a function that triggers an action on click of brand logo.
+ * @return {JSX} 
+ */
+function Navbar(props) {
     return (
         <nav className="navbar">
             <h1>
@@ -17,3 +24,5 @@ export default function Navbar(props) {
 Navbar.propTypes = {
     action : PropTypes.func.isRequired
 }
+
+export default Navbar;

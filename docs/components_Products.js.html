@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Products.js</title>
+    <title>JSDoc: Source: components/Products.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: Products.js</h1>
+    <h1 class="page-title">Source: components/Products.js</h1>
 
     
 
@@ -77,7 +77,11 @@ class Products extends Component {
         this.implementPage();
     }
 
-    // IMPLEMENT CURRENT PAGE ACCORDING TO PAGINATION
+    /**
+       * @function implementPage() :
+       * IMPLEMENT CURRENT PAGE ACCORDING TO PAGINATION.
+       * @param {String} pageNo indicates pageNo of current paginated products. 
+       */
     implementPage(pageNo = 1){
         const {productsPerPage, products} = this.state;
         let paginatedProducts = [];
@@ -94,7 +98,11 @@ class Products extends Component {
         this.setState({ currentPage:pageNo, paginatedProducts: paginatedProducts});
     }
 
-    // HANDLE BRANDS FILTER
+    /**
+      * @function handleBrandChange() :
+      * HANDLE BRANDS FILTER.
+      * @param {Array} brandsFilter contains list of brands to be filtered. 
+      */
     handleBrandChange(event){
         const { brandsFilter } = this.state;
         if(brandsFilter.includes(event.target.value)){
@@ -108,7 +116,11 @@ class Products extends Component {
         });
     }
     
-    // HANDLE TAGS FILTER
+    /**
+      * @function handleTagChange() :
+      * HANDLE TAGS FILTER.
+      * @param {Array} tagsFilter contains list of tags to be filtered. 
+      */
     handleTagChange(event){
         const { tagsFilter } = this.state;
         if(tagsFilter.includes(event.target.value)){
@@ -122,7 +134,11 @@ class Products extends Component {
         });
     }
 
-    // HANDLE RATINGS FILTER
+    /**
+      * @function handleRatingChange() :
+      * HANDLE RATINGS FILTER.
+      * @param {Array} ratingsFilter contains list of ratings to be filtered. 
+      */
     handleRatingChange(event){
         const { ratingsFilter } = this.state;
         if(Number(event.target.value) === 0)
@@ -135,7 +151,11 @@ class Products extends Component {
             });
     }
 
-    // HANDLE PRICES FILTER
+    /**
+      * @function handlePriceChange() :
+      * HANDLE PRICES FILTER.
+      * @param {Array} pricesFilter contains list of prices to be filtered. 
+      */
     handlePriceChange(event){
         const { pricesFilter } = this.state;
         if(Number(event.target.value) === 0)
@@ -148,7 +168,16 @@ class Products extends Component {
             });
     }
 
-    // APPLY FILTERS
+    /**
+     * @async
+     * @function applyFilters() :
+     * APPLY FILTERS.
+     * @param {Array} brandsFilter contains list of brands to be filtered. 
+     * @param {Array} tagsFilter contains list of tags to be filtered. 
+     * @param {Array} ratingsFilter contains list of ratings to be filtered. 
+     * @param {Array} categoriesFilter contains list of categories to be filtered. 
+     * @param {Array} pricesFilter contains list of prices to be filtered. 
+     */
     async applyFilters(){
         const { fetchedProducts, brandsFilter, tagsFilter, ratingsFilter, pricesFilter, currentPage} = this.state;
         let value = fetchedProducts;    // if(brandsFilter.length === 0 &amp;&amp; tagsFilter.length === 0) this.products;
@@ -305,13 +334,13 @@ export default Products;</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Home.html">Home</a></li><li><a href="ProductCard.html">ProductCard</a></li><li><a href="Products.html">Products</a></li></ul><h3>Global</h3><ul><li><a href="global.html#LOADLOCALDATAINSTEADWAITINGFORDATAFROMLIVEAPI.">LOAD LOCAL DATA INSTEAD WAITING FOR DATA FROM LIVE API.</a></li><li><a href="global.html#Loading:ThiscomponentisdisplayedwhenAPIfetchesdatafromOnlineResource">Loading :This component is displayed when API fetches data from Online Resource</a></li><li><a href="global.html#Pagination:ThiscomponentdisplaysPaginationontheproductspage">Pagination :This component displays Pagination on the products page</a></li><li><a href="global.html#SearchBar:ThiscomponentManagesuserinteractiontoenableusertosearchaproduct">SearchBar : This component Manages user interaction to enable user to search a product</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Home.html">Home</a></li><li><a href="ProductCard.html">ProductCard</a></li><li><a href="Products.html">Products</a></li></ul><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#applyFilters():APPLYFILTERS.">applyFilters() :APPLY FILTERS.</a></li><li><a href="global.html#autocompleteCallback():Autocompletecallbackmethodtoinitiatesearch.">autocompleteCallback() :Autocomplete callback method to initiate search.</a></li><li><a href="global.html#handleBrandChange():HANDLEBRANDSFILTER.">handleBrandChange() :HANDLE BRANDS FILTER.</a></li><li><a href="global.html#handlePriceChange():HANDLEPRICESFILTER.">handlePriceChange() :HANDLE PRICES FILTER.</a></li><li><a href="global.html#handleRatingChange():HANDLERATINGSFILTER.">handleRatingChange() :HANDLE RATINGS FILTER.</a></li><li><a href="global.html#handleTagChange():HANDLETAGSFILTER.">handleTagChange() :HANDLE TAGS FILTER.</a></li><li><a href="global.html#implementPage():IMPLEMENTCURRENTPAGEACCORDINGTOPAGINATION.">implementPage() :IMPLEMENT CURRENT PAGE ACCORDING TO PAGINATION.</a></li><li><a href="global.html#Loading:ThiscomponentisdisplayedwhenAPIfetchesdatafromOnlineResource">Loading :This component is displayed when API fetches data from Online Resource</a></li><li><a href="global.html#loadLocalData():LOADLOCALDATAINSTEADWAITINGFORDATAFROMLIVEAPI.">loadLocalData() :LOAD LOCAL DATA INSTEAD WAITING FOR DATA FROM LIVE API.</a></li><li><a href="global.html#Navbar:Thiscomponentisadynamicnavbar">Navbar :This component is a dynamic navbar</a></li><li><a href="global.html#onTextChanged()thisfunctionhandlesinputformchangesinsearchBar">onTextChanged()this function handles input form changes in searchBar</a></li><li><a href="global.html#Pagination:ThiscomponentdisplaysPaginationontheproductspage">Pagination :This component displays Pagination on the products page</a></li><li><a href="global.html#renderRecents()thisfunctionrenders5recentlysearchedstrings">renderRecents()this function renders 5 recently searched strings</a></li><li><a href="global.html#renderSuggestions()thisfunctionrenderssuggestionsaspersearchedstring">renderSuggestions()this function renders suggestions as per searched string</a></li><li><a href="global.html#reSearch():GETREADYFORANOTHERSEARCH..">reSearch() :GET READY FOR ANOTHER SEARCH..</a></li><li><a href="global.html#SearchBar:ThiscomponentManagesuserinteractiontoenableusertosearchaproduct">SearchBar : This component Manages user interaction to enable user to search a product</a></li><li><a href="global.html#searchItem():INITIATESEARCHINGFORTHESEARCHEDSTRING.">searchItem() :INITIATE SEARCHING FOR THE SEARCHED STRING.</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Mon Nov 30 2020 12:02:34 GMT+0530 (India Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Mon Nov 30 2020 13:07:15 GMT+0530 (India Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
