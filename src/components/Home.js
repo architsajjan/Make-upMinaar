@@ -47,7 +47,7 @@ class Home extends React.Component {
     
       componentDidMount() {
         // FETCH DATA FROM API (if) items array is empty or local data isnt loaded. 
-        if(this.state.items.length === 0)
+        if(this.state.items.length === 0 && !this.localDataLoaded)
         fetch("http://makeup-api.herokuapp.com/api/v1/products.json")
           .then(res => res.json())
           .then(
@@ -140,7 +140,12 @@ class Home extends React.Component {
         const { error, isLoaded, searchedItem, itemBrandList, itemTagsList, browseHistory} = this.state;
         
         if (error) {
-           return <div>Error: {error.message}</div>;
+           return (
+            <div>
+              <Navbar action={()=> {}}/>
+              <Loading loadLocalData={this.loadLocalData} errorRecieved={true}/>
+            </div>
+           );
         }
         else if(!isLoaded){
             return(

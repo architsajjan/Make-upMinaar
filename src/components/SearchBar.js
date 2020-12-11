@@ -82,7 +82,7 @@ function SearchBar(props) {
         if(!browseHistory || browseHistory.length === 0){return null;}
         return (
             <ul>
-                {browseHistory.map((item) => <li className="recentlySearched" onClick={()=>props.autocompleteCallback(item)} key={item}>{item} (RECENT)</li>)}
+                {browseHistory.map((item) => <li className="recentlySearched" onClick={()=>props.autocompleteCallback(item)} key={item}>{item ==="" ? "ALL Products": item} (RECENT)</li>)}
             </ul>
         );
     }                    

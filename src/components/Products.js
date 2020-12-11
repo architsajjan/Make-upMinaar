@@ -185,7 +185,7 @@ class Products extends Component {
       }
 
     render(){
-        const { paginatedProducts, pages } = this.state;
+        const { paginatedProducts, pages, currentPage } = this.state;
         let element, pagesArr = [];
         for (let page = 1; page <= Number(pages); page++) {
             pagesArr.push(page);
@@ -196,16 +196,16 @@ class Products extends Component {
             element =   <div className="productContainer">
                             <h1 className="medium text-primary alignLeft">Search Results for &quot;{this.props.searchString}&quot;<p>({this.state.products.length} products found)</p></h1>
                             <div className="pagination">
-                                <p className="medium">PAGES:&nbsp;&nbsp;</p>
-                                    {pagesArr.map(page => 
-                                        <Pagination key={page} page={page} callback={this.implementPage}/>
-                                    )}
+                                <Pagination totalPages={pages} currentPage={currentPage} callback={this.implementPage}/>
                             </div>
 
                             {paginatedProducts.map(product => (
                                 <ProductCard key={product.id}
                                     item={product} />
                             ))}
+                            <div className="pagination">
+                                <Pagination totalPages={pages} currentPage={currentPage} callback={this.implementPage}/>
+                            </div>
                         </div>  ;
         }
         else{
