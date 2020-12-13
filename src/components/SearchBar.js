@@ -93,9 +93,6 @@ function SearchBar(props) {
                 <div className="form-group">
                     <input type="text" className="SearchBox" spellCheck="false" autoComplete="off"  placeholder="Search for a product/ brand/ category" name="searchedText" onChange={onTextChanged} />
                 </div>
-                {/* <div className="form-group">
-                    <input type="button" className="btn primay-btn SearchButton"  value="All" onClick={props.searchItem} />
-                </div>                */}
                 <div className="form-group">
                     <input type="submit" className="btn primay-btn SearchButton"  value={disableSearchAll ? "Search" : "All Products"} />
                 </div>
