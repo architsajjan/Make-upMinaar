@@ -2,7 +2,7 @@ import React from 'react';
 import data from '../../Data.json';
 import PropTypes from 'prop-types';
 
-export default function ProductDetails(props) {
+function ProductDetails(props) {
     const product = data.find((obj) => obj.id === Number(props.match.params.productID));
     
     const {api_featured_image, brand, category, created_at, currency, description, image_link, name, price, price_sign, product_api_url,  product_colors, product_link, product_type, rating,  tag_list, updated_at, website_link } = product;
@@ -43,3 +43,5 @@ ProductDetails.propTypes = {
         })
         }).isRequired
 };
+
+export default ProductDetails;

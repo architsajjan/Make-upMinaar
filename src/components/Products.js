@@ -6,7 +6,23 @@ import PropTypes from 'prop-types';
 import ProductCard from './additionals/ProductCard';
 import Pagination from './additionals/Pagination';
 
-export default class Products extends Component {
+/**
+ * @class
+ * Products component shows the list of fetched products on the basis of search
+ */
+class Products extends Component {
+    /**
+     * @constructor 
+     * @param {Array} brandsFilter  an array to store list of brands filters applied
+     * @param {Array} tagsfilter  an array to store list of tags filters applied
+     * @param {Array} ratingsFilter  an array to store list of ratings filters applied
+     * @param {Array} pricesFilter  an array to store list of prices filters applied
+     * @param {Array} fetchedProducts  an array to store list fetched products as per user search 
+     * @param {Number} ProductsPerPage  count of products allowed per page
+     * @param {Number} pages  number of pages
+     * @param {Number} currentPage  current page number
+     * @param {Array} paginatedProducts  an array to products to display on the current page
+     */
     constructor(props){
         super(props);
         this.state={
@@ -33,7 +49,11 @@ export default class Products extends Component {
         this.implementPage();
     }
 
-    // IMPLEMENT CURRENT PAGE ACCORDING TO PAGINATION
+    /**
+       * @function implementPage() :
+       * IMPLEMENT CURRENT PAGE ACCORDING TO PAGINATION.
+       * @param {String} pageNo indicates pageNo of current paginated products. 
+       */
     implementPage(pageNo = 1){
         const {productsPerPage, products} = this.state;
         let paginatedProducts = [];
@@ -50,7 +70,11 @@ export default class Products extends Component {
         this.setState({ currentPage:pageNo, paginatedProducts: paginatedProducts});
     }
 
-    // HANDLE BRANDS FILTER
+    /**
+      * @function handleBrandChange() :
+      * HANDLE BRANDS FILTER.
+      * @param {Array} brandsFilter contains list of brands to be filtered. 
+      */
     handleBrandChange(event){
         const { brandsFilter } = this.state;
         if(brandsFilter.includes(event.target.value)){
@@ -64,7 +88,11 @@ export default class Products extends Component {
         });
     }
     
-    // HANDLE TAGS FILTER
+    /**
+      * @function handleTagChange() :
+      * HANDLE TAGS FILTER.
+      * @param {Array} tagsFilter contains list of tags to be filtered. 
+      */
     handleTagChange(event){
         const { tagsFilter } = this.state;
         if(tagsFilter.includes(event.target.value)){
@@ -78,7 +106,11 @@ export default class Products extends Component {
         });
     }
 
-    // HANDLE RATINGS FILTER
+    /**
+      * @function handleRatingChange() :
+      * HANDLE RATINGS FILTER.
+      * @param {Array} ratingsFilter contains list of ratings to be filtered. 
+      */
     handleRatingChange(event){
         const { ratingsFilter } = this.state;
         if(Number(event.target.value) === 0)
@@ -91,7 +123,11 @@ export default class Products extends Component {
             });
     }
 
-    // HANDLE PRICES FILTER
+    /**
+      * @function handlePriceChange() :
+      * HANDLE PRICES FILTER.
+      * @param {Array} pricesFilter contains list of prices to be filtered. 
+      */
     handlePriceChange(event){
         const { pricesFilter } = this.state;
         if(Number(event.target.value) === 0)
@@ -104,7 +140,16 @@ export default class Products extends Component {
             });
     }
 
-    // APPLY FILTERS
+    /**
+     * @async
+     * @function applyFilters() :
+     * APPLY FILTERS.
+     * @param {Array} brandsFilter contains list of brands to be filtered. 
+     * @param {Array} tagsFilter contains list of tags to be filtered. 
+     * @param {Array} ratingsFilter contains list of ratings to be filtered. 
+     * @param {Array} categoriesFilter contains list of categories to be filtered. 
+     * @param {Array} pricesFilter contains list of prices to be filtered. 
+     */
     async applyFilters(){
         const { fetchedProducts, brandsFilter, tagsFilter, ratingsFilter, pricesFilter, currentPage} = this.state;
         let value = fetchedProducts;    // if(brandsFilter.length === 0 && tagsFilter.length === 0) this.products;
@@ -140,27 +185,26 @@ export default class Products extends Component {
       }
 
     render(){
-        const { paginatedProducts, pages } = this.state;
+        const { paginatedProducts, pages, currentPage } = this.state;
         let element, pagesArr = [];
         for (let page = 1; page <= Number(pages); page++) {
             pagesArr.push(page);
         }
-
-        // DETERMINES WHETHER ANY PRODUCTS FOUND
+                // DETERMINES WHETHER ANY PRODUCTS FOUND
         if(paginatedProducts.length > 0){
             element =   <div className="productContainer">
                             <h1 className="medium text-primary alignLeft">Search Results for &quot;{this.props.searchString}&quot;<p>({this.state.products.length} products found)</p></h1>
                             <div className="pagination">
-                                <p className="medium">PAGES:&nbsp;&nbsp;</p>
-                                    {pagesArr.map(page => 
-                                        <Pagination key={page} page={page} callback={this.implementPage}/>
-                                    )}
+                                <Pagination totalPages={pages} currentPage={currentPage} callback={this.implementPage}/>
                             </div>
 
                             {paginatedProducts.map(product => (
                                 <ProductCard key={product.id}
                                     item={product} />
                             ))}
+                            <div className="pagination">
+                                <Pagination totalPages={pages} currentPage={currentPage} callback={this.implementPage}/>
+                            </div>
                         </div>  ;
         }
         else{
@@ -168,6 +212,7 @@ export default class Products extends Component {
                             <h1 className="medium text-primary">No products found for your searched Item.</h1>
                         </div>  ;
         }
+
 
         return (
             <div>
@@ -250,3 +295,5 @@ Products.propTypes = {
     tags: PropTypes.array.isRequired
     
 };
+
+export default Products;

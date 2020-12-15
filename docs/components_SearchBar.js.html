@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/SearchBar.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/SearchBar.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// IMPORTS
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+
+/**
+ * @function
+ * SearchBar : 
+ * This component Manages user interaction to enable user to search a product
+ * 
+ * @param {Array} items  an array of fetched results
+ * @param {Array} names  an array to store list of Products Names available
+ * @param {Array} types  an array to store list of Product types available
+ * @param {Array} categories  an array to store list of Products Categories available
+ * @param {Array} tags  an array to store list of Products Tags available
+ * @param {Array} brands  an array to store list of Brands available
+ * @param {Array} browseHistory  an array to display search history
+ * @return {JSX}
+ */
+function SearchBar(props) {
+    const { names, types, categories, tags, brands, browseHistory } = props;
+
+    let items = [];
+    if(names)items =[...items, ...props.names]; 
+    if(types)items =[...items, ...props.types]; 
+    if(categories)items =[...items, ...props.categories]; 
+    if(tags)items =[...items, ...props.tags]; 
+    if(brands)items =[...items, ...props.brands]; 
+
+    /**
+     * State of the SEARCHBAR component using useState Hook
+     * @param {Array} suggestions holds list of suggestions for autocomplete
+     * @param {Boolean} disableSearchAll a flag to toggle between search all products and search searched product
+     * @param {String} str holds the value of searched string
+     */
+    const [suggestions, setSuggestions] = useState([]);
+    const [disableSearchAll, setDisableSearchAll] = useState(false);
+    const [str, setStr] = useState("");
+
+    /**
+     * @function onTextChanged()
+     * this function handles input form changes in searchBar
+     * @param {Event} event holds the event that triggeres this method
+     */
+    function onTextChanged(event){
+        const value = event.target.value;
+        if (value === "") setDisableSearchAll(false);
+        else setDisableSearchAll(true);
+
+        let localSuggestions = [];
+        if(value.length > 0){
+            const regex = new RegExp(`^${value}`, 'i');
+            localSuggestions = items.sort().filter(v => regex.test(v));
+        }
+        setSuggestions(localSuggestions);
+
+        setStr(value);
+    } 
+
+    /**
+     * @function renderSuggestions()
+     * this function renders suggestions as per searched string
+     * @param {Array} suggestions holds the list of suggestions
+     * @return {JSX}
+     */
+    function renderSuggestions(){
+        if(suggestions.length === 0){return null;}
+        return (
+            &lt;ul>
+                &lt;p className="medium">TRY TYPING:&lt;/p>
+                {suggestions.slice(0,5).map((item) => &lt;li onClick={()=>props.autocompleteCallback(item)} key={item}>{item}&lt;/li>)}
+            &lt;/ul>
+        );
+    }      
+    
+    /**
+     * @function renderRecents()
+     * this function renders 5 recently searched strings
+     * @param {Array} browseHistory holds the list of 5 recent searches
+     * @return {JSX}
+     */
+    function renderRecents(){
+        if(!browseHistory || browseHistory.length === 0){return null;}
+        return (
+            &lt;ul>
+                {browseHistory.map((item) => &lt;li className="recentlySearched" onClick={()=>props.autocompleteCallback(item)} key={item}>{item} (RECENT)&lt;/li>)}
+            &lt;/ul>
+        );
+    }                    
+
+    return (
+        &lt;div>
+            &lt;form className="form searchForm form-bg" onSubmit={()=>props.searchItem(str)}>
+                &lt;div className="form-group">
+                    &lt;input type="text" className="SearchBox" spellCheck="false" autoComplete="off"  placeholder="Search for a product/ brand/ category" name="searchedText" onChange={onTextChanged} />
+                &lt;/div>
+                {/* &lt;div className="form-group">
+                    &lt;input type="button" className="btn primay-btn SearchButton"  value="All" onClick={props.searchItem} />
+                &lt;/div>                */}
+                &lt;div className="form-group">
+                    &lt;input type="submit" className="btn primay-btn SearchButton"  value={disableSearchAll ? "Search" : "All Products"} />
+                &lt;/div>
+            &lt;/form>
+            {renderSuggestions()}
+            {renderRecents()}
+        &lt;/div>
+    )
+}
+
+SearchBar.propTypes = {
+    searchItem : PropTypes.func.isRequired,
+    autocompleteCallback : PropTypes.func.isRequired,
+    names : PropTypes.array,
+    types : PropTypes.array,
+    categories : PropTypes.array,
+    brands : PropTypes.array,
+    tags : PropTypes.array,
+    browseHistory : PropTypes.array
+};
+
+export default SearchBar;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Home.html">Home</a></li><li><a href="ProductCard.html">ProductCard</a></li><li><a href="Products.html">Products</a></li></ul><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#applyFilters():APPLYFILTERS.">applyFilters() :APPLY FILTERS.</a></li><li><a href="global.html#autocompleteCallback():Autocompletecallbackmethodtoinitiatesearch.">autocompleteCallback() :Autocomplete callback method to initiate search.</a></li><li><a href="global.html#handleBrandChange():HANDLEBRANDSFILTER.">handleBrandChange() :HANDLE BRANDS FILTER.</a></li><li><a href="global.html#handlePriceChange():HANDLEPRICESFILTER.">handlePriceChange() :HANDLE PRICES FILTER.</a></li><li><a href="global.html#handleRatingChange():HANDLERATINGSFILTER.">handleRatingChange() :HANDLE RATINGS FILTER.</a></li><li><a href="global.html#handleTagChange():HANDLETAGSFILTER.">handleTagChange() :HANDLE TAGS FILTER.</a></li><li><a href="global.html#implementPage():IMPLEMENTCURRENTPAGEACCORDINGTOPAGINATION.">implementPage() :IMPLEMENT CURRENT PAGE ACCORDING TO PAGINATION.</a></li><li><a href="global.html#Loading:ThiscomponentisdisplayedwhenAPIfetchesdatafromOnlineResource">Loading :This component is displayed when API fetches data from Online Resource</a></li><li><a href="global.html#loadLocalData():LOADLOCALDATAINSTEADWAITINGFORDATAFROMLIVEAPI.">loadLocalData() :LOAD LOCAL DATA INSTEAD WAITING FOR DATA FROM LIVE API.</a></li><li><a href="global.html#Navbar:Thiscomponentisadynamicnavbar">Navbar :This component is a dynamic navbar</a></li><li><a href="global.html#onTextChanged()thisfunctionhandlesinputformchangesinsearchBar">onTextChanged()this function handles input form changes in searchBar</a></li><li><a href="global.html#Pagination:ThiscomponentdisplaysPaginationontheproductspage">Pagination :This component displays Pagination on the products page</a></li><li><a href="global.html#renderRecents()thisfunctionrenders5recentlysearchedstrings">renderRecents()this function renders 5 recently searched strings</a></li><li><a href="global.html#renderSuggestions()thisfunctionrenderssuggestionsaspersearchedstring">renderSuggestions()this function renders suggestions as per searched string</a></li><li><a href="global.html#reSearch():GETREADYFORANOTHERSEARCH..">reSearch() :GET READY FOR ANOTHER SEARCH..</a></li><li><a href="global.html#SearchBar:ThiscomponentManagesuserinteractiontoenableusertosearchaproduct">SearchBar : This component Manages user interaction to enable user to search a product</a></li><li><a href="global.html#searchItem():INITIATESEARCHINGFORTHESEARCHEDSTRING.">searchItem() :INITIATE SEARCHING FOR THE SEARCHED STRING.</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Mon Nov 30 2020 13:07:15 GMT+0530 (India Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

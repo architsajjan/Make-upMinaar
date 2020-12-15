@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Products.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Products.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// IMPORTS
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+// LOCAL IMPORTS
+import ProductCard from './additionals/ProductCard';
+import Pagination from './additionals/Pagination';
+
+/**
+ * @class
+ * Products component shows the list of fetched products on the basis of search
+ */
+class Products extends Component {
+    /**
+     * @constructor 
+     * @param {Array} brandsFilter  an array to store list of brands filters applied
+     * @param {Array} tagsfilter  an array to store list of tags filters applied
+     * @param {Array} ratingsFilter  an array to store list of ratings filters applied
+     * @param {Array} pricesFilter  an array to store list of prices filters applied
+     * @param {Array} fetchedProducts  an array to store list fetched products as per user search 
+     * @param {Number} ProductsPerPage  count of products allowed per page
+     * @param {Number} pages  number of pages
+     * @param {Number} currentPage  current page number
+     * @param {Array} paginatedProducts  an array to products to display on the current page
+     */
+    constructor(props){
+        super(props);
+        this.state={
+            brandsFilter: [],
+            tagsFilter: [],
+            ratingsFilter: 0,
+            pricesFilter: 0,
+            fetchedProducts: this.props.products,
+            products: this.props.products,
+            productsPerPage : 10,
+            pages: 1,
+            currentPage: 1,
+            paginatedProducts : this.props.products
+        };
+        this.handleBrandChange = this.handleBrandChange.bind(this);
+        this.handleTagChange = this.handleTagChange.bind(this);
+        this.handleRatingChange = this.handleRatingChange.bind(this);
+        this.handlePriceChange = this.handlePriceChange.bind(this);
+        this.applyFilters = this.applyFilters.bind(this);
+        this.implementPage = this.implementPage.bind(this);
+    }
+
+    componentDidMount(){        
+        this.implementPage();
+    }
+
+    /**
+       * @function implementPage() :
+       * IMPLEMENT CURRENT PAGE ACCORDING TO PAGINATION.
+       * @param {String} pageNo indicates pageNo of current paginated products. 
+       */
+    implementPage(pageNo = 1){
+        const {productsPerPage, products} = this.state;
+        let paginatedProducts = [];
+        this.setState({
+            pages: Math.ceil(Number((products.length)/productsPerPage))
+        });
+        const base = (Number(pageNo)-1)* Number(productsPerPage);
+        let rounds = ((products.length - base)>=10)? productsPerPage:(products.length - base);
+
+
+        for(let i = 0; i&lt;rounds ; ++i){
+            paginatedProducts.push(products[base+i])
+        }
+        this.setState({ currentPage:pageNo, paginatedProducts: paginatedProducts});
+    }
+
+    /**
+      * @function handleBrandChange() :
+      * HANDLE BRANDS FILTER.
+      * @param {Array} brandsFilter contains list of brands to be filtered. 
+      */
+    handleBrandChange(event){
+        const { brandsFilter } = this.state;
+        if(brandsFilter.includes(event.target.value)){
+            brandsFilter.pop(event.target.value);
+        }
+        else{
+            brandsFilter.push(event.target.value);
+        }
+        this.setState({
+            brandsFilter: brandsFilter
+        });
+    }
+    
+    /**
+      * @function handleTagChange() :
+      * HANDLE TAGS FILTER.
+      * @param {Array} tagsFilter contains list of tags to be filtered. 
+      */
+    handleTagChange(event){
+        const { tagsFilter } = this.state;
+        if(tagsFilter.includes(event.target.value)){
+            tagsFilter.pop(event.target.value);
+        }
+        else{
+            tagsFilter.push(event.target.value);
+        }
+        this.setState({
+            tagsFilter: tagsFilter
+        });
+    }
+
+    /**
+      * @function handleRatingChange() :
+      * HANDLE RATINGS FILTER.
+      * @param {Array} ratingsFilter contains list of ratings to be filtered. 
+      */
+    handleRatingChange(event){
+        const { ratingsFilter } = this.state;
+        if(Number(event.target.value) === 0)
+        this.setState({
+            ratingsFilter: 0
+        });
+        if(ratingsFilter !== Number(event.target.value) &amp;&amp; Number(event.target.value) !== 0)
+            this.setState({
+                ratingsFilter: Number(event.target.value)
+            });
+    }
+
+    /**
+      * @function handlePriceChange() :
+      * HANDLE PRICES FILTER.
+      * @param {Array} pricesFilter contains list of prices to be filtered. 
+      */
+    handlePriceChange(event){
+        const { pricesFilter } = this.state;
+        if(Number(event.target.value) === 0)
+        this.setState({
+            pricesFilter: 0
+        });
+        if(pricesFilter !== Number(event.target.value) &amp;&amp; Number(event.target.value) !== 0)
+            this.setState({
+                pricesFilter: Number(event.target.value)
+            });
+    }
+
+    /**
+     * @async
+     * @function applyFilters() :
+     * APPLY FILTERS.
+     * @param {Array} brandsFilter contains list of brands to be filtered. 
+     * @param {Array} tagsFilter contains list of tags to be filtered. 
+     * @param {Array} ratingsFilter contains list of ratings to be filtered. 
+     * @param {Array} categoriesFilter contains list of categories to be filtered. 
+     * @param {Array} pricesFilter contains list of prices to be filtered. 
+     */
+    async applyFilters(){
+        const { fetchedProducts, brandsFilter, tagsFilter, ratingsFilter, pricesFilter, currentPage} = this.state;
+        let value = fetchedProducts;    // if(brandsFilter.length === 0 &amp;&amp; tagsFilter.length === 0) this.products;
+
+        if(brandsFilter.length !== 0)
+            value = value.filter(item => 
+            (item.brand!==null ? brandsFilter.includes(item.brand) : false)
+            );
+        if(tagsFilter.length !== 0)
+            value = value.filter(item => 
+            (item.tag_list!==null ? tagsFilter.some(tag => item.tag_list.includes(tag)) : false) 
+            );
+        if(ratingsFilter !== 0)
+            value = value.filter(item => 
+                (item.rating!==null ? item.rating>=ratingsFilter : false)
+            );
+        if(pricesFilter === 1)
+            value = value.filter(item => 
+                (item.price!==null ? item.price&lt;10 : false)
+            );
+        else if(pricesFilter === 2)
+            value = value.filter(item => 
+                (item.price!==null ? item.price>=10 &amp;&amp; item.price&lt;=15 : false)
+            );
+        else if(pricesFilter === 3)
+            value = value.filter(item => 
+                (item.price!==null ? item.price>15 : false)
+            );
+        
+        await this.setState({ products: value });
+        
+        this.implementPage(currentPage);   
+      }
+
+    render(){
+        const { paginatedProducts, pages } = this.state;
+        let element, pagesArr = [];
+        for (let page = 1; page &lt;= Number(pages); page++) {
+            pagesArr.push(page);
+        }
+
+        // DETERMINES WHETHER ANY PRODUCTS FOUND
+        if(paginatedProducts.length > 0){
+            element =   &lt;div className="productContainer">
+                            &lt;h1 className="medium text-primary alignLeft">Search Results for &amp;quot;{this.props.searchString}&amp;quot;&lt;p>({this.state.products.length} products found)&lt;/p>&lt;/h1>
+                            &lt;div className="pagination">
+                                &lt;p className="medium">PAGES:&amp;nbsp;&amp;nbsp;&lt;/p>
+                                    {pagesArr.map(page => 
+                                        &lt;Pagination key={page} page={page} callback={this.implementPage}/>
+                                    )}
+                            &lt;/div>
+
+                            {paginatedProducts.map(product => (
+                                &lt;ProductCard key={product.id}
+                                    item={product} />
+                            ))}
+                        &lt;/div>  ;
+        }
+        else{
+            element =   &lt;div className="container">
+                            &lt;h1 className="medium text-primary">No products found for your searched Item.&lt;/h1>
+                        &lt;/div>  ;
+        }
+
+        return (
+            &lt;div>
+                &lt;div className="landing">
+                    &lt;div className="landing-main">
+                        {element}  
+                    &lt;/div>
+
+                    &lt;div className="">
+                        &lt;div className="landing-filter">
+                        &lt;h1 className="medium">Filters&lt;input type="button" value="Apply" onClick={this.applyFilters} />&lt;/h1>
+                        &lt;div className="brandFilters">
+                            &lt;h3 className="medium">Brands&lt;/h3>
+                            {this.props.brands.map(brand => 
+                                &lt;label key={brand}>
+                                &lt;input type="checkbox" key={brand} value={brand} name="brand" onChange={this.handleBrandChange}/> 
+                                    {brand}
+                                &lt;/label>
+                            )}
+                        &lt;/div>
+                        &lt;div className="tagFilters">
+                            &lt;h3 className="medium">Tags&lt;/h3>
+                            {this.props.tags.map(tag => 
+                                &lt;label key={tag}>
+                                &lt;input type="checkbox" key={tag} value={tag} name="tag"  onChange={this.handleTagChange} /> 
+                                    {tag}
+                                &lt;/label>
+                            )}
+                        &lt;/div>
+                        &lt;div className="ratingFilters">
+                            &lt;h3 className="small">Ratings:&amp;nbsp;&lt;/h3>
+                            &lt;div className="ratingFilter">
+                                &lt;label>
+                                    &lt;input type="radio" name="rating" value="1" onChange={this.handleRatingChange} />&amp;nbsp;1^&amp;nbsp;&amp;nbsp;
+                                &lt;/label>
+                                &lt;label>
+                                    &lt;input type="radio" name="rating" value="2" onChange={this.handleRatingChange} />&amp;nbsp;2^&amp;nbsp;&amp;nbsp;
+                                &lt;/label>
+                                &lt;label>
+                                    &lt;input type="radio" name="rating" value="3" onChange={this.handleRatingChange} />&amp;nbsp;3^&amp;nbsp;&amp;nbsp;
+                                &lt;/label>
+                                &lt;label>
+                                    &lt;input type="radio" name="rating" value="4" onChange={this.handleRatingChange} />&amp;nbsp;4^&amp;nbsp;&amp;nbsp;
+                                &lt;/label>
+                                &lt;label>
+                                    &lt;input type="radio" name="rating" value="0" onChange={this.handleRatingChange} />&amp;nbsp;All
+                                &lt;/label>
+                            &lt;/div>
+                        &lt;/div>
+
+                        &lt;div className="priceFilters">
+                            &lt;h3 className="small">Price Range&lt;/h3>
+                            &lt;div className="priceFilter">
+                                &lt;label>
+                                    &lt;input type="radio" name="price" value="0" onChange={this.handlePriceChange} />&amp;nbsp;Any
+                                &lt;/label>&lt;br />
+                                &lt;label>
+                                    &lt;input type="radio" name="price" value="1" onChange={this.handlePriceChange} />&amp;nbsp;below $10
+                                &lt;/label>&lt;br />
+                                &lt;label>
+                                    &lt;input type="radio" name="price" value="2" onChange={this.handlePriceChange} />&amp;nbsp;$10 - $15
+                                &lt;/label>&lt;br />
+                                &lt;label>
+                                    &lt;input type="radio" name="price" value="3" onChange={this.handlePriceChange} />&amp;nbsp;Above $15
+                                &lt;/label>
+                            &lt;/div>
+                        &lt;/div>
+                    &lt;/div>
+                &lt;/div>
+            &lt;/div>
+        &lt;/div>
+        );
+    }
+}
+
+Products.propTypes = {
+    products: PropTypes.array.isRequired,
+    searchString: PropTypes.string,
+    brands: PropTypes.array.isRequired,
+    tags: PropTypes.array.isRequired
+    
+};
+
+export default Products;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Home.html">Home</a></li><li><a href="ProductCard.html">ProductCard</a></li><li><a href="Products.html">Products</a></li></ul><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#applyFilters():APPLYFILTERS.">applyFilters() :APPLY FILTERS.</a></li><li><a href="global.html#autocompleteCallback():Autocompletecallbackmethodtoinitiatesearch.">autocompleteCallback() :Autocomplete callback method to initiate search.</a></li><li><a href="global.html#handleBrandChange():HANDLEBRANDSFILTER.">handleBrandChange() :HANDLE BRANDS FILTER.</a></li><li><a href="global.html#handlePriceChange():HANDLEPRICESFILTER.">handlePriceChange() :HANDLE PRICES FILTER.</a></li><li><a href="global.html#handleRatingChange():HANDLERATINGSFILTER.">handleRatingChange() :HANDLE RATINGS FILTER.</a></li><li><a href="global.html#handleTagChange():HANDLETAGSFILTER.">handleTagChange() :HANDLE TAGS FILTER.</a></li><li><a href="global.html#implementPage():IMPLEMENTCURRENTPAGEACCORDINGTOPAGINATION.">implementPage() :IMPLEMENT CURRENT PAGE ACCORDING TO PAGINATION.</a></li><li><a href="global.html#Loading:ThiscomponentisdisplayedwhenAPIfetchesdatafromOnlineResource">Loading :This component is displayed when API fetches data from Online Resource</a></li><li><a href="global.html#loadLocalData():LOADLOCALDATAINSTEADWAITINGFORDATAFROMLIVEAPI.">loadLocalData() :LOAD LOCAL DATA INSTEAD WAITING FOR DATA FROM LIVE API.</a></li><li><a href="global.html#Navbar:Thiscomponentisadynamicnavbar">Navbar :This component is a dynamic navbar</a></li><li><a href="global.html#onTextChanged()thisfunctionhandlesinputformchangesinsearchBar">onTextChanged()this function handles input form changes in searchBar</a></li><li><a href="global.html#Pagination:ThiscomponentdisplaysPaginationontheproductspage">Pagination :This component displays Pagination on the products page</a></li><li><a href="global.html#renderRecents()thisfunctionrenders5recentlysearchedstrings">renderRecents()this function renders 5 recently searched strings</a></li><li><a href="global.html#renderSuggestions()thisfunctionrenderssuggestionsaspersearchedstring">renderSuggestions()this function renders suggestions as per searched string</a></li><li><a href="global.html#reSearch():GETREADYFORANOTHERSEARCH..">reSearch() :GET READY FOR ANOTHER SEARCH..</a></li><li><a href="global.html#SearchBar:ThiscomponentManagesuserinteractiontoenableusertosearchaproduct">SearchBar : This component Manages user interaction to enable user to search a product</a></li><li><a href="global.html#searchItem():INITIATESEARCHINGFORTHESEARCHEDSTRING.">searchItem() :INITIATE SEARCHING FOR THE SEARCHED STRING.</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Mon Nov 30 2020 13:07:15 GMT+0530 (India Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/additionals/ProductCard.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/additionals/ProductCard.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// IMPORTS
+import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
+
+/**
+ * @class
+ * ProductCard is an example of a Pure component and doesnt Rerenders
+ * @param {String} id Id of the product
+ * @param {String} api_featured_image Image of the product
+ * @param {String} name Name of the product
+ * @param {String} brand Brand of the product
+ * @param {String} category Category of the product
+ * @param {String} product_type Type of the product
+ * @param {String} rating Rating of the product
+ * @param {String} currency Currency of the product
+ * @param {String} price_sign Price Sign of the product
+ * @param {String} price Price of the product
+ */
+class ProductCard extends PureComponent {
+    constructor(props){
+        super(props);
+    }
+
+    render(){
+        let { id, api_featured_image, name, brand, category, product_type, rating, currency, price_sign, price } = this.props.item;
+
+        // HANDLE NULL OR UNDEFINED VALUES IN DATA
+        if(api_featured_image === null || api_featured_image === ""){
+            api_featured_image = "../../imgs/defaultThumbnail.png";
+        }
+        if(brand === null || brand === ""){
+            brand = "Unavailable";
+        }
+        if(category === null || category === ""){
+            category = "Unavailable";
+        }
+        if(rating === null || rating === ""){
+            rating = "Unavailable";
+        }
+        if(product_type === null || product_type === ""){
+            product_type = "Unavailable";
+        }
+        
+        return (
+            &lt;div className="productCard">
+                
+                &lt;div className="details">
+                    &lt;h3>{name}&lt;/h3>&lt;hr />
+                    &lt;p>Brand: {brand} ||| Category: {category} ||| Product Type: {product_type}&lt;/p>&lt;br />
+                    &lt;p>Rating: {rating}&lt;/p>&lt;p>Price{currency}: {price_sign} {price}&lt;/p>&lt;br />
+                    
+                    {/*        // ENABLE THIS COMMENT TO LOAD LOCAL COMPONENT TO DISPLAY PRODUCT DETAILS
+                    &lt;input type="button" className="btn primary-btn" value="View Product IN local component" onClick={() => window.open(`/products/${id}/details`)} /> */}
+                    
+                    &lt;input type="button" className="btn primary-btn" value="View Product" onClick={() => window.open(`https://makeup-api.herokuapp.com/api/v1/products/${id}`)} />
+                &lt;/div> 
+                &lt;div className="thumbnail">
+                    &lt;img src={api_featured_image} alt="logo.png"/>
+                &lt;/div> 
+            &lt;/div>
+        );
+    }
+}
+
+ProductCard.propTypes = {
+    item : PropTypes.object.isRequired
+};
+
+export default ProductCard;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Home.html">Home</a></li><li><a href="ProductCard.html">ProductCard</a></li><li><a href="Products.html">Products</a></li></ul><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#applyFilters():APPLYFILTERS.">applyFilters() :APPLY FILTERS.</a></li><li><a href="global.html#autocompleteCallback():Autocompletecallbackmethodtoinitiatesearch.">autocompleteCallback() :Autocomplete callback method to initiate search.</a></li><li><a href="global.html#handleBrandChange():HANDLEBRANDSFILTER.">handleBrandChange() :HANDLE BRANDS FILTER.</a></li><li><a href="global.html#handlePriceChange():HANDLEPRICESFILTER.">handlePriceChange() :HANDLE PRICES FILTER.</a></li><li><a href="global.html#handleRatingChange():HANDLERATINGSFILTER.">handleRatingChange() :HANDLE RATINGS FILTER.</a></li><li><a href="global.html#handleTagChange():HANDLETAGSFILTER.">handleTagChange() :HANDLE TAGS FILTER.</a></li><li><a href="global.html#implementPage():IMPLEMENTCURRENTPAGEACCORDINGTOPAGINATION.">implementPage() :IMPLEMENT CURRENT PAGE ACCORDING TO PAGINATION.</a></li><li><a href="global.html#Loading:ThiscomponentisdisplayedwhenAPIfetchesdatafromOnlineResource">Loading :This component is displayed when API fetches data from Online Resource</a></li><li><a href="global.html#loadLocalData():LOADLOCALDATAINSTEADWAITINGFORDATAFROMLIVEAPI.">loadLocalData() :LOAD LOCAL DATA INSTEAD WAITING FOR DATA FROM LIVE API.</a></li><li><a href="global.html#Navbar:Thiscomponentisadynamicnavbar">Navbar :This component is a dynamic navbar</a></li><li><a href="global.html#onTextChanged()thisfunctionhandlesinputformchangesinsearchBar">onTextChanged()this function handles input form changes in searchBar</a></li><li><a href="global.html#Pagination:ThiscomponentdisplaysPaginationontheproductspage">Pagination :This component displays Pagination on the products page</a></li><li><a href="global.html#renderRecents()thisfunctionrenders5recentlysearchedstrings">renderRecents()this function renders 5 recently searched strings</a></li><li><a href="global.html#renderSuggestions()thisfunctionrenderssuggestionsaspersearchedstring">renderSuggestions()this function renders suggestions as per searched string</a></li><li><a href="global.html#reSearch():GETREADYFORANOTHERSEARCH..">reSearch() :GET READY FOR ANOTHER SEARCH..</a></li><li><a href="global.html#SearchBar:ThiscomponentManagesuserinteractiontoenableusertosearchaproduct">SearchBar : This component Manages user interaction to enable user to search a product</a></li><li><a href="global.html#searchItem():INITIATESEARCHINGFORTHESEARCHEDSTRING.">searchItem() :INITIATE SEARCHING FOR THE SEARCHED STRING.</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Mon Nov 30 2020 13:07:15 GMT+0530 (India Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

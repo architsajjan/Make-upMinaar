@@ -10,6 +10,15 @@ import ProductDetails from './components/additionals/ProductDetails';
 // STYLESHEET
 import './App.css';
 
+/**
+ * @file App.js is the root file for this app containing all the routes and paths
+ * @author Archit Sajjan
+ */
+/**
+ * MakeUp Minnar is a beginner React based Application 
+ * that depicts use of beginner react concepts.
+ * 
+ */
 const App = () => 
       <Router>
         <Switch>
