@@ -1,20 +1,9 @@
 import React from "react";
-import { render, unmountComponentAtNode } from "react-dom";
+import renderer from "react-test-renderer";
 
 import SearchBar from '../SearchBar';
 
-it("runs without crash", () => {
-  const div = document.createElement("div");
-  render(<SearchBar 
-          searchItem={()=>{}} 
-          handleChange={()=>{}}
-          autocompleteCallback = {()=>{}} 
-          names={[]}
-          brands={[]}
-          categories={[]}
-          types={[]}
-          tags={[]}
-        />
-        , div);
-  unmountComponentAtNode(div);
+it("renders correctly", () => {
+  const tree = renderer.create(<SearchBar />).toJSON();
+  expect(tree).toMatchSnapshot();
 });

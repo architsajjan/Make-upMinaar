@@ -190,8 +190,7 @@ class Products extends Component {
         for (let page = 1; page <= Number(pages); page++) {
             pagesArr.push(page);
         }
-
-        // DETERMINES WHETHER ANY PRODUCTS FOUND
+                // DETERMINES WHETHER ANY PRODUCTS FOUND
         if(paginatedProducts.length > 0){
             element =   <div className="productContainer">
                             <h1 className="medium text-primary alignLeft">Search Results for &quot;{this.props.searchString}&quot;<p>({this.state.products.length} products found)</p></h1>
@@ -213,6 +212,7 @@ class Products extends Component {
                             <h1 className="medium text-primary">No products found for your searched Item.</h1>
                         </div>  ;
         }
+
 
         return (
             <div>

@@ -7,5 +7,7 @@ import Navbar from '../Navbar';
 it("runs without crash", () => {
   const div = document.createElement("div");
   render(<BrowserRouter><Navbar action={()=>{}} /></BrowserRouter>, div);
+  //expect(div).toBeInTheDocument();
+
   unmountComponentAtNode(div);
 });
