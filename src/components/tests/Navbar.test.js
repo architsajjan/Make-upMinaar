@@ -1,13 +1,9 @@
 import React from "react";
-import { render, unmountComponentAtNode } from "react-dom";
-import { BrowserRouter } from "react-router-dom";
+import renderer from "react-test-renderer";
 
-import Navbar from '../Navbar';
+import SearchBar from '../SearchBar';
 
-it("runs without crash", () => {
-  const div = document.createElement("div");
-  render(<BrowserRouter><Navbar action={()=>{}} /></BrowserRouter>, div);
-  //expect(div).toBeInTheDocument();
-
-  unmountComponentAtNode(div);
+it("renders correctly", () => {
+  const tree = renderer.create(<SearchBar />).toJSON();
+  expect(tree).toMatchSnapshot();
 });
