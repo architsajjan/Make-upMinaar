@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div>
+  <form
+    className="form searchForm form-bg"
+    onSubmit={[Function]}
+  >
+    <div
+      className="form-group"
+    >
+      <input
+        autoComplete="off"
+        className="SearchBox"
+        name="searchedText"
+        onChange={[Function]}
+        placeholder="Search for a product/ brand/ category"
+        spellCheck="false"
+        type="text"
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <input
+        className="btn primay-btn SearchButton"
+        type="submit"
+        value="All Products"
+      />
+    </div>
+  </form>
+</div>
+`;

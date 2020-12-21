@@ -36,11 +36,9 @@ export default function Pagination(props) {
                             pagination.push(<PageCard key={page+1} page={page+1} currentPage={currentPage} lastPage={totalPages} callback={callback}/>)
                             })
                         : [...Array(noOfPagesPerPagination).keys()].map(page => {
-                            pagination.push(<PageCard key={initialPaginationPage} page={initialPaginationPage} currentPage={currentPage} lastPage={totalPages} callback={callback}/>);
+                            pagination.push(<PageCard key={initialPaginationPage + page} page={initialPaginationPage} currentPage={currentPage} lastPage={totalPages} callback={callback}/>);
                             initialPaginationPage++;
-                            console.log(initialPaginationPage ,"---", page);
                             });
-             console.log(pagination);
     return (
         <div style={{display : "inline-flex"}}>
             {!defaultPagination && <PageCard page={firstPage} callback={callback} currentPage={currentPage} lastPage={totalPages} isFirstPage={true}/>}
